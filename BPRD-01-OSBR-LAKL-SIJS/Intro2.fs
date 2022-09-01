@@ -26,6 +26,7 @@ type expr =
   | Prim of string * expr * expr
   | Max of expr * expr
   | Min of expr * expr
+  | If of expr * expr * expr
 
 let e1 = CstI 17;;
 
@@ -57,6 +58,9 @@ let rec eval e (env : (string * int) list) : int =
         let eval1 = eval e1 env
         let eval2 = eval e2 env
         if eval1 < eval2 then eval1 else eval2
+    | If (e1, e2, e3)   ->
+        if eval e1 env >= 1 then eval e2 env else eval e3 env
+
 
 
 let e1v  = eval e1 env;;
