@@ -79,12 +79,14 @@ let ae1 = Sub(Var "v", Add(Var "w", Var "z"))
 let ae2 = Mul(CstI 2, ae1)
 let ae3 = Add(Var "x", Add(Var "y", Add(Var "z", Var "v")))
 
+let ae4 = Add(CstI(1), CstI(1))
+
 let fmt (ae: aexpr) : string =
     let rec aux ae (str: string) =
         match ae with
         | CstI i        -> str + (sprintf "%i" i)
         | Var v         -> str + v
-        | Add (e1, e2)  -> str + (sprintf "%i + %i" (aux e1 str) (aux e2 str))
-        | Mul (e1, e2)  -> str + (sprintf "%i * %i" (aux e1 str) (aux e2 str))
-        | Sub (e1, e2)  -> str + (sprintf "%i - %i" (aux e1 str) (aux e2 str))
+        | Add (e1, e2)  -> str + "(" + ((aux e1 "") + " + " + (aux e2 "")) + ")"
+        | Mul (e1, e2)  -> str + "(" + ((aux e1 "") + " * " + (aux e2 "")) + ")"
+        | Sub (e1, e2)  -> str + "(" + ((aux e1 "") + " - " + (aux e2 "")) + ")"
     aux ae ""
