@@ -40,11 +40,15 @@ let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i
     | Var x             -> lookup env x 
-    | Prim("+", e1, e2) -> eval e1 env + eval e2 env
-    | Prim("*", e1, e2) -> eval e1 env * eval e2 env
-    | Prim("-", e1, e2) -> eval e1 env - eval e2 env
-    | Prim("==", e1, e2)-> if eval e1 env == eval e2 env then 1 else 0
-    | Prim _            -> failwith "unknown primitive"
+    | Prim(ope, e1, e2) -> 
+        let i1 = eval e1 env
+        let i2 = eval e2 env
+        match ope with
+        | "+" -> i1 + i2
+        | "*" -> i1 * i2
+        | "-" -> i1 - i2
+        | "==" -> if i1 = i2 then 1 else 0
+        | _ -> failwith "unknown primitive"
     | Max (e1, e2)      -> 
         let eval1 = eval e1 env
         let eval2 = eval e2 env
