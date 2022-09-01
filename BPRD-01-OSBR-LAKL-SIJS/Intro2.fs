@@ -67,3 +67,24 @@ let e1v  = eval e1 env;;
 let e2v1 = eval e2 env;;
 let e2v2 = eval e2 [("a", 314)];;
 let e3v  = eval e3 env;;
+
+type aexpr =
+  | CstI of int
+  | Var of string
+  | Add of aexpr * aexpr
+  | Mul of aexpr * aexpr
+  | Sub of aexpr * aexpr
+
+let ae1 = Sub(Var "v", Add(Var "w", Var "z"))
+let ae2 = Mul(CstI 2, ae1)
+let ae3 = Add(Var "x", Add(Var "y", Add(Var "z", Var "v")))
+
+let fmt (ae: aexpr) : string =
+    let rec aux ae (str: string) =
+        match ae with
+        | CstI i        -> str + (sprintf "%i" i)
+        | Var v         -> str + v
+        | Add (e1, e2)  -> str + (sprintf "%i + %i" (aux e1 str) (aux e2 str))
+        | Mul (e1, e2)  -> str + (sprintf "%i * %i" (aux e1 str) (aux e2 str))
+        | Sub (e1, e2)  -> str + (sprintf "%i - %i" (aux e1 str) (aux e2 str))
+    aux ae ""
