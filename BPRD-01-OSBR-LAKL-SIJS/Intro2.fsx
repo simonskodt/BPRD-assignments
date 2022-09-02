@@ -116,10 +116,10 @@ let rec simplify (ae: aexpr) : aexpr =
         let simp1 = simplify e1
         let simp2 = simplify e2
         match simp1, simp2 with
+        | e1, CstI 0 -> e1
         | e1, e2 when e1 = e2 -> CstI 0
         | _, _ -> Sub(simp1, simp2)
         
-
     // f f'
     // k 0
     // k*x  k
@@ -131,3 +131,4 @@ let rec simplify (ae: aexpr) : aexpr =
     //     | Var v -> 
     //         match v with
     //         | v' when v' = "Pow()"
+
