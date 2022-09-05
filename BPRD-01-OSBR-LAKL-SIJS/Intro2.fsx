@@ -120,15 +120,12 @@ let rec simplify (ae: aexpr) : aexpr =
         | e1, e2 when e1 = e2 -> CstI 0
         | _, _ -> Sub(simp1, simp2)
         
-    // f f'
-    // k 0
-    // k*x  k
-    // x^n n*x^(n-1)
-    // e^x e^x    
-    // let differentiationArith (ae: aexpr) : aexpr =
-    //     match ae with
-    //     | CstI i -> CstI 0
-    //     | Var v -> 
-    //         match v with
-    //         | v' when v' = "Pow()"
-
+let rec diff (ae: aexpr) (x: string) : aexpr =
+    match ae with
+    | CstI _             -> CstI 0
+    | Var v when v = x   -> CstI 1
+    | Var y when y <> x  -> CstI 0
+    | Add (e1, e2)       -> Add(diff e1 x, diff e2 x)
+    | Sub (e1, e2)       -> Sub(diff e1 x, diff e2 x)
+    | Mul (e1, e2)       -> Add (Mul(diff e1 x, e2), (Mul(e1, diff e2 x)))
+    | _                  -> failwith "Not to be differentiated"
