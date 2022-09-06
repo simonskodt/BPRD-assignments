@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 abstract class Expr {
+  abstract public String toString();
   abstract public int eval(Map<String, Integer> env);
+  abstract public Expr simplify();
 }
 
 class CstI extends Expr {
@@ -16,12 +18,19 @@ class CstI extends Expr {
     this.i = i;
   }
 
-  public int getI() {
+  @Override
+  public String toString() {
+    return String.valueOf(this.i);
+  }
+
+  @Override
+  public int eval(Map<String, Integer> env) {
     return i;
   }
 
-  public int eval(Map<String, Integer> env) {
-    return i;
+  @Override
+  public Expr simplify() {
+    return new CstI(this.i);
   }
 }
 
@@ -32,8 +41,19 @@ class Var extends Expr {
     this.name = name;
   }
 
+  @Override
+  public String toString() {
+    return this.name;
+  }
+
+  @Override
   public int eval(Map<String, Integer> env) {
-    return env.get(name);
+    return env.get(this.name);
+  }
+
+  @Override
+  public Expr simplify() {
+    return new Var(this.name);
   }
 }
 
@@ -46,7 +66,13 @@ class Prim extends Expr {
     this.e1 = e1;
     this.e2 = e2;
   }
+  
+  @Override
+  public String toString() {
+    return this.e1 + this.oper + this.e2;
+  }
 
+  @Override
   public int eval(Map<String, Integer> env) {
     if (oper.equals("+"))
       return e1.eval(env) + e2.eval(env);
@@ -56,6 +82,11 @@ class Prim extends Expr {
       return e1.eval(env) - e2.eval(env);
     else
       throw new RuntimeException("unknown primitive");
+  }
+
+  @Override
+  public Expr simplify() {
+    throw new UnsupportedOperationException();
   }
 }
 
@@ -83,37 +114,38 @@ public class SimpleExpr {
     System.out.println(e6.eval(env0));
 
     // 1.4(iv)
-    Binop e7 = new Add(new CstI(0), new CstI(5));
-    System.out.println(e7.simplify().toString());
-    Binop e8 = new Mul(new CstI(1), new CstI(5));
-    System.out.println(e8.simplify().toString());
-    Binop e9 = new Sub(new CstI(5), new CstI(5));
-    System.out.println(e9.simplify().toString());
+    Expr e7 = new Add(new CstI(0), new Var("x"));
+    System.out.println(e7.toString());
+    Expr e8 = new Mul(new CstI(1), new CstI(5));
+    System.out.println(e8.simplify());
+    Expr e9 = new Sub(new CstI(5), new CstI(5));
+    System.out.println(e9.simplify());
+    Expr e10 = new Add(e1, new CstI(0));
+    System.out.println(e10.simplify());
   }
 }
 
 // 1.4(i)
 abstract class Binop extends Expr {
   protected Expr e1, e2;
+  protected String oper;
 
-  public Binop(Expr e1, Expr e2) {
+  public Binop(Expr e1, Expr e2, String oper) {
     this.e1 = e1;
     this.e2 = e2;
+    this.oper = oper;
   }
 
-  public abstract String toString();
+  public String toString() {
+    return e1.toString() + oper + e1.toString();
+  }
 
   public abstract Expr simplify();
 }
 
 class Add extends Binop {
   public Add(Expr e1, Expr e2) {
-    super(e1, e2);
-  }
-
-  @Override
-  public String toString() {
-    return e1 + " + " + e2;
+    super(e1, e2, "+");
   }
 
   // 1.4(iii)
@@ -125,27 +157,19 @@ class Add extends Binop {
   // 1.4(iv)
   @Override
   public Expr simplify() {
-    if (e1 instanceof CstI) {
-      CstI a = (CstI) e1;
-      if (a.i == 0) {
-        return e2;
-      } else if (a.i == 0) {
-        return e1;
-      } else {
-        return new Add(e1, e2);
-      }
+    if (e1.toString().equals("0")) {
+      return e2;
+    } else if (e2.toString().equals("0")) {
+      return e1;
+    } else {
+      return new Add(e1, e2);
     }
   }
 }
 
 class Mul extends Binop {
   public Mul(Expr e1, Expr e2) {
-    super(e1, e2);
-  }
-
-  @Override
-  public String toString() {
-    return e1 + " * " + e2;
+    super(e1, e2, "*");
   }
 
   @Override
@@ -155,11 +179,11 @@ class Mul extends Binop {
 
   @Override
   public Expr simplify() {
-    if (e1 == (new CstI(1))) {
+    if (e1.toString().equals("1")) {
       return e2;
-    } else if (e2 == (new CstI(1))) {
+    } else if (e2.toString().equals("1")) {
       return e1;
-    } else if (e1 == (new CstI(0)) || (e2 == (new CstI(0)))) {
+    } else if (e1.toString().equals("0") || e2.toString().equals("0")) {
       return new CstI(0);
     } else {
       return new Mul(e1, e2);
@@ -169,12 +193,7 @@ class Mul extends Binop {
 
 class Sub extends Binop {
   public Sub(Expr e1, Expr e2) {
-    super(e1, e2);
-  }
-
-  @Override
-  public String toString() {
-    return e1 + " - " + e2;
+    super(e1, e2, "-");
   }
 
   @Override
@@ -184,10 +203,10 @@ class Sub extends Binop {
 
   @Override
   public Expr simplify() {
-    if (e1 == e2) {
-      return new CstI(0);
-    } else if (e2 == (new CstI(0))) {
+    if (e2.toString().equals("0")) {
       return e1;
+    } else if (e1.toString().equals(e2.toString())) {
+      return new CstI(0);
     } else {
       return new Sub(e1, e2);
     }
