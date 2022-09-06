@@ -24,9 +24,9 @@ type expr =
   | CstI of int
   | Var of string
   | Prim of string * expr * expr
-  | Max of expr * expr           // 1.1(i)
-  | Min of expr * expr           // 1.1(i)
-  | If of expr * expr * expr;;   // 1.1(iv)
+  | Max of expr * expr           // EXERCISE 1.1(i)
+  | Min of expr * expr           // EXERCISE 1.1(i)
+  | If of expr * expr * expr;;   // EXERCISE 1.1(iv)
 
 let e1 = CstI 17;;
 
@@ -41,20 +41,20 @@ let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i
     | Var x             -> lookup env x 
-    | Prim(ope, e1, e2) ->                           // 1.1(iii)
+    | Prim(ope, e1, e2) ->                           // EXERCISE 1.1(iii)
         let i1 = eval e1 env
         let i2 = eval e2 env
         match ope with
         | "+" -> i1 + i2
         | "*" -> i1 * i2
         | "-" -> i1 - i2
-        | "==" -> if i1 = i2 then 1 else 0           // 1.1(i)
+        | "==" -> if i1 = i2 then 1 else 0           // EXERCISE 1.1(i)
         | _ -> failwith "unknown primitive"
-    | Max (e1, e2)      ->                           // 1.1(i)
+    | Max (e1, e2)      ->                           // EXERCISE 1.1(i)
         let eval1 = eval e1 env
         let eval2 = eval e2 env
         if eval1 > eval2 then eval1 else eval2
-    | Min (e1, e2)      ->                           // 1.1(i)
+    | Min (e1, e2)      ->                           // EXERCISE 1.1(i)
         let eval1 = eval e1 env
         let eval2 = eval e2 env
         if eval1 < eval2 then eval1 else eval2
@@ -81,7 +81,8 @@ let ae1 = Sub(Var "v", Add(Var "w", Var "z"))
 let ae2 = Mul(CstI 2, ae1)
 let ae3 = Add(Var "x", Add(Var "y", Add(Var "z", Var "v")))
 
-let ae4 = Add(CstI(1), CstI(1))      // 1.1(ii)  
+// EXERCISE 1.1(ii)  
+let ae4 = Add(CstI(1), CstI(1))
 
 // 1.2(iii)
 let fmt (ae: aexpr) : string =
@@ -98,7 +99,7 @@ let ae5 = CstI(5)
 let ae6 = CstI(5)
 let ae7 = Mul(ae5, ae6)
 
-// 1.2(iv)
+// EXERCISE 1.2(iv)
 let rec simplify (ae: aexpr) : aexpr =
     match ae with
     | CstI i       -> CstI i
@@ -124,7 +125,7 @@ let rec simplify (ae: aexpr) : aexpr =
         | e1, e2 when e1 = e2 -> CstI 0
         | _, _ -> Sub(simp1, simp2)
 
-// 1.2(v) 
+// EXERCISE 1.2(v) 
 let rec diff (ae: aexpr) (x: string) : aexpr =
     match ae with
     | CstI _             -> CstI 0
