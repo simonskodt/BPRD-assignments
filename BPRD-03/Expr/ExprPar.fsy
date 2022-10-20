@@ -13,7 +13,9 @@
 %token LPAR RPAR
 %token EOF
 
-%left MINUS PLUS        /* lowest precedence  */
+// Exercise 3.7, right-to-left associativity.
+%right ELSE THEN IF     /* lowest precedence  */
+%left MINUS PLUS        
 %left TIMES             /* highest precedence */
 
 %start Main

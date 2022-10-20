@@ -40,7 +40,7 @@ let ex9 = fromString
 
 ## Exercise 4.3
 
-Answered in `Fun.fs` & `Absyn.fs`.
+Answered in `Fun.fs` & `Absyn.fs`. 
 
 ## Exercise 4.4
 
@@ -48,4 +48,4 @@ Answered in `FunPar.fsy`.
 
 ## Exercise 4.5
 
-Answered in `FunLex.fsl` and `FunPar.fsy`.
+Answered in `FunLex.fsl` and `FunPar.fsy`. 
