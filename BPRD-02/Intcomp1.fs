@@ -337,6 +337,28 @@ type sinstr =
   | SPop                                (* pop value/unbind var   *)
   | SSwap;;                             (* exchange top and next  *)
  
+(* Output the integers in list inss to the text file called fname: *)
+
+let intsToFile (inss : int list) (fname : string) = 
+    let text = String.concat " " (List.map string inss)
+    System.IO.File.WriteAllText(fname, text);;
+
+(* -----------------------------------------------------------------  *)
+
+// EXERCISE 2.4 && EXERCISE 2.5
+let sinstrToInt (sl : sinstr list) (nameOfFile : string) = 
+    let rec aux sl il =
+        match sl with
+        | []            -> intsToFile (List.rev il) nameOfFile; List.rev il 
+        | SCstI x :: xs -> aux xs (x :: 0 :: il)
+        | SVar x :: xs  -> aux xs (x :: 1 :: il)
+        | SAdd :: xs    -> aux xs (2 :: il)
+        | SSub :: xs    -> aux xs (3 :: il)
+        | SMul :: xs    -> aux xs (4 :: il)
+        | SPop :: xs    -> aux xs (5 :: il)
+        | SSwap :: xs   -> aux xs (6 :: il)
+    aux sl []
+
 let rec seval (inss : sinstr list) (stack : int list) =
     match (inss, stack) with
     | ([], v :: _) -> v
@@ -379,10 +401,3 @@ type stackvalue =
 // let s3 = scomp e3 [];;
 // let s5 = scomp e5 [];;
 
-(* Output the integers in list inss to the text file called fname: *)
-
-let intsToFile (inss : int list) (fname : string) = 
-    let text = String.concat " " (List.map string inss)
-    System.IO.File.WriteAllText(fname, text);;
-
-(* -----------------------------------------------------------------  *)
