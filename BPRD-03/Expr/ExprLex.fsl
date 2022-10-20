@@ -1,0 +1,43 @@
+{
+(* File Expr/Exprlex.fsl
+   Lexer specification for the simple expression language.
+*)
+
+module ExprLex
+
+open FSharp.Text.Lexing
+open ExprPar
+
+let lexemeAsString lexbuf = 
+    LexBuffer<char>.LexemeString lexbuf
+
+(* Scan keywords as identifiers and use this function to distinguish them. *)
+(* If the set of keywords is large, use a hashtable instead.               *)
+
+let keyword s =
+    match s with
+    | "let"  -> LET
+    | "in"   -> IN
+    | "end"  -> END
+    (* Exercise 3.7 *)
+    | "if"   -> IF
+    | "then" -> THEN
+    | "else" -> ELSE
+    | _      -> NAME s
+}
+
+rule Token = parse
+  | [' ' '\t' '\r'] { Token lexbuf }
+  | '\n'            { lexbuf.EndPos <- lexbuf.EndPos.NextLine; Token lexbuf }
+  | ['0'-'9']+      { CSTINT (System.Int32.Parse (lexemeAsString lexbuf)) }
+  | ['a'-'z''A'-'Z']['a'-'z''A'-'Z''0'-'9']*
+                    { keyword (lexemeAsString lexbuf) }
+  | '+'             { PLUS  } 
+  | '-'             { MINUS } 
+  | '*'             { TIMES }
+  | '='             { EQ    } 
+  | '('             { LPAR  } 
+  | ')'             { RPAR  } 
+  | eof             { EOF   }
+  | _               { failwith "Lexer error: illegal symbol" }
+  

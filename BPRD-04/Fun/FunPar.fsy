@@ -1,0 +1,89 @@
+%{
+ (* File Fun/FunPar.fsy 
+    Parser for micro-ML, a small functional language; one-argument functions.
+    sestoft@itu.dk * 2009-10-19
+  *)
+
+ open Absyn;
+%}
+
+%token <int> CSTINT
+%token <string> NAME
+%token <bool> CSTBOOL
+
+%token ELSE END FALSE IF IN LET NOT THEN TRUE
+%token PLUS MINUS TIMES DIV MOD
+%token EQ NE GT LT GE LE
+%token LPAR RPAR
+%token AND OR
+%token EOF
+
+%left OR                /* lowest precedence  */
+%left AND
+%left ELSE             
+%left EQ NE 
+%left GT LT GE LE
+%left PLUS MINUS
+%left TIMES DIV MOD
+%nonassoc NOT           /* highest precedence  */
+
+%start Main
+%type <Absyn.expr> Main Expr AtExpr Const
+%type <string list> Names1  // Exercise 4.4
+%type <expr list> Args      // Exercise 4.4
+%type <Absyn.expr> AppExpr
+
+%%
+
+Main:
+    Expr EOF                            { $1 }
+;
+
+Expr:
+    AtExpr                              { $1                     }
+  | AppExpr                             { $1                     }
+  | IF Expr THEN Expr ELSE Expr         { If($2, $4, $6)         }
+  | MINUS Expr                          { Prim("-", CstI 0, $2)  }
+  | Expr PLUS  Expr                     { Prim("+",  $1, $3)     }
+  | Expr MINUS Expr                     { Prim("-",  $1, $3)     }
+  | Expr TIMES Expr                     { Prim("*",  $1, $3)     }
+  | Expr DIV   Expr                     { Prim("/",  $1, $3)     } 
+  | Expr MOD   Expr                     { Prim("%",  $1, $3)     }
+  | Expr EQ    Expr                     { Prim("=",  $1, $3)     }
+  | Expr NE    Expr                     { Prim("<>", $1, $3)     }
+  | Expr GT    Expr                     { Prim(">",  $1, $3)     }
+  | Expr LT    Expr                     { Prim("<",  $1, $3)     }
+  | Expr GE    Expr                     { Prim(">=", $1, $3)     }
+  | Expr LE    Expr                     { Prim("<=", $1, $3)     }
+  | Expr AND   Expr                     { Prim("&&", $1, $3)     }
+  | Expr OR    Expr                     { Prim("||", $1, $3)     }
+;
+
+// Exercise 4.4
+Names1:
+    NAME                                { [$1]                    }
+  | NAME Names1                         { $1 :: $2                }
+;
+
+AtExpr:
+    Const                               { $1                     }
+  | NAME                                { Var $1                 }
+  | LET NAME EQ Expr IN Expr END        { Let($2, $4, $6)        }
+  | LET NAME Names1 EQ Expr IN Expr END { Letfun($2, $3, $5, $7) } // Exercise 4.4
+  | LPAR Expr RPAR                      { $2                     }
+;
+
+// Exercise 4.4
+Args:
+  AtExpr                                { [$1]                   }
+| AtExpr Args                           { $1 :: $2               }
+;
+
+AppExpr:
+  | AtExpr Args                         { Call($1, $2)           }
+;
+
+Const:
+    CSTINT                              { CstI($1)               }
+  | CSTBOOL                             { CstB($1)               }
+;
