@@ -120,16 +120,39 @@ val it: Interp.store =
 ```
 
 ### Exercise 7.2
-i
-```
+
+(i), prints sum of array
+
+```fsharp
+> open ParseAndRun;;
+> run (fromFile "ex7_2(i).c") [];;  
+
+37 val it: Interp.store =
+  map
+    [(-1, 37); (0, -1); (1, 7); (2, 13); (3, 9); (4, 8); (5, 1); (6, 4);
+     (7, 4); ...]
 ```
 
-ii
-```
+(ii), prints array followed by the sum.
+
+```fsharp
+> open ParseAndRun;;
+> run (fromFile "ex7_2(ii).c") [5];;  
+0 1 4 9 16 30 val it: Interp.store =
+  map
+    [(-1, 30); (0, -1); (1, 5); (2, 0); (3, 1); (4, 4); (5, 9); (6, 16);
+     (7, -999); ...]
 ```
 
-iii
-```
+(iii), prints frequency of each value in the array.
+
+```fsharp
+> open ParseAndRun;;
+> run (fromFile "ex7_2(iii).c") [];;
+
+1 4 2 0 val it: Interp.store =
+  map
+    [(0, 1); (1, 2); (2, 1); (3, 1); (4, 1); (5, 2); (6, 0); (7, 0); (8, 1);
 ```
 
 ### Exercise 7.3
