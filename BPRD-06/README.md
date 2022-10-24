@@ -120,8 +120,17 @@ val it: Interp.store =
 ```
 
 ### Exercise 7.2
+i
+```
+```
 
+ii
+```
+```
 
+iii
+```
+```
 
 ### Exercise 7.3
 
