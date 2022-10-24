@@ -16,7 +16,7 @@ let nl = CstI 10
 
 %token CHAR ELSE IF INT NULL PRINT PRINTLN RETURN VOID WHILE FOR
 %token PLUS MINUS TIMES DIV MOD
-%token EQ NE GT LT GE LE
+%token EQ NE GT LT GE LE INC DEC
 %token NOT SEQOR SEQAND
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
@@ -30,6 +30,7 @@ let nl = CstI 10
 %left PLUS MINUS
 %left TIMES DIV MOD 
 %nonassoc NOT AMP 
+%right INC DEC
 %nonassoc LBRACK          /* highest precedence  */
 
 %start Main
@@ -135,6 +136,8 @@ ExprNotAccess:
   | Expr LE    Expr                     { Prim2("<=", $1, $3) }
   | Expr SEQAND Expr                    { Andalso($1, $3)     }
   | Expr SEQOR  Expr                    { Orelse($1, $3)      }
+  | INC Access                          { PreInc($2)          }
+  | DEC Access                          { PreDec($2)          }
 ;
 
 AtExprNotAccess:

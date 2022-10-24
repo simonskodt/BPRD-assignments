@@ -191,4 +191,24 @@ Output when running:
 
 ### Exercise 7.4
 
+See implemetation in
+
+- `Absyn.fs`
+- `Interp.fs`
+
+See example in file `ex7_4.c`
+
 ### Exercise 7.5
+
+See implemetation in:
+
+- `CLex.fsl`
+- `CPar.fsy`
+
+Example output from Exercise 7.4:
+
+```fsharp
+> open ParseAndRun;;
+> run (fromFile "ex7_4.c") [];;
+4 7 val it: Interp.store = map [(0, 6)]
+```
