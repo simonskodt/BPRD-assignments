@@ -13,13 +13,20 @@ void main() {
     int freq[4];
     int max;
     max = 3;
+    int i;
+    i = 0;
+    
+    while (i <= max) {
+        freq[i] = 0;
+        i = i + 1;
+    }
 
     histogram(7, arr, max, freq);
 
-    int i;
     i = 0;
     while (i <= max) {
         print freq[i];
+        i = i + 1;
     }
 }
 
