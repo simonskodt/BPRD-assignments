@@ -1,5 +1,6 @@
 # BPRD-06
-Assignment 6 in Programmer som data.
+
+Assignment 6 in 'Programmer som data'.
 
 ## Exercises
 
@@ -14,7 +15,7 @@ val it: Absyn.program =
         Block
           [Stmt
              (While
-                (Prim2 (">", Access (AccVar "n"), CstI 0),   
+                (Prim2 (">", Access (AccVar "n"), CstI 0),
                  Block
                    [Stmt (Expr (Prim1 ("printi", Access (AccVar "n"))));
                     Stmt

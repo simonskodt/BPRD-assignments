@@ -15,7 +15,7 @@ void main() {
     max = 3;
     int i;
     i = 0;
-    
+
     while (i <= max) {
         freq[i] = 0;
         i = i + 1;
@@ -23,7 +23,7 @@ void main() {
 
     histogram(7, arr, max, freq);
 
-    i = 0;
+    i = 0 + 1 + 4 + 5;
     while (i <= max) {
         print freq[i];
         i = i + 1;
