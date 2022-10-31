@@ -121,3 +121,23 @@ val it: Machine.instr list =
 
    Ran 0.225 seconds
 ```
+
+The structured bytecode for `ex3.c` and `ex5.c` can be found in `ex3_assembly.out` and `ex5_assembly.out`
+
+Executing ex3.out in java
+
+```cmd
+ ☀️ java Machine ex3.out 10
+0 1 2 3 4 5 6 7 8 9 
+Ran 0.019 seconds
+```
+
+Machinetrace for `ex3.out` in Java explained can be found in `ex3trace.txt`
+
+### Exercise 8.3
+
+### Exercise 8.4
+
+### Exercise 8.5
+
+### Exercise 8.6
