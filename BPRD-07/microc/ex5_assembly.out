@@ -1,0 +1,55 @@
+24: LDARGS    |
+19: CALL 1 5  | setup program
+25: STOP      |
+15: INCSP 1      | int r
+13: GETBP     |
+0:  CSTI 1    | get access to r
+1:  ADD       |
+13: GETBP        |
+0:  CSTI 0       | get access to n
+1:  ADD          |
+11: LDI          |
+12: STI       | end of assignment (r = n)
+15: INCSP -1     | decrement sp 
+15: INCSP 1   | int r
+13: GETBP        |   
+0:  CSTI 0       | get access to n
+1:  ADD          |
+11: LDI          |
+13: GETBP     |
+0:  CSTI 2    | get r
+1:  ADD       |
+19: CALL 2 57    | call function square at address 57 with 2 arguments
+15: INCSP -1  | end of expression 
+13: GETBP        | 
+0:  CSTI 2       | get access to r in block
+1:  ADD          |
+11: LDI          |
+22: PRINTI     | print r 
+15: INCSP -1     
+15: INCSP -1 
+13: GETBP      |
+0:  CSTI 1     | get access to r
+1:  ADD        |
+11: LDI        |
+22: PRINTI        | print r
+15: INCSP -1   
+15: INCSP -1 
+21: RET 0      | end of main function
+13: GETBP         |
+0:  CSTI 1        | get *rp
+1:  ADD           |
+11: LDI           |
+13: GETBP      |
+0:  CSTI 0     | get i
+1:  ADD        |
+11: LDI        |
+13: GETBP         |
+0:  CSTI 0        | get i
+1:  ADD           |
+11: LDI           |
+3:  MUL        | i * i
+12: STI           | end of assignment (*rp = i * i)
+15: INCSP -1   
+15: INCSP 0 
+21: RET 1      | return from square
