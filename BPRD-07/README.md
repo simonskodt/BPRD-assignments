@@ -169,6 +169,16 @@ Machinetrace for `ex3.out` in Java explained can be found in `ex3trace.txt`
 
 ### Exercise 8.3
 
+Found in `Absyn.fs`, `CLex.fsl`, `CPar.fsy` and `Comp.fs`. Find Micro-C example in `ex8_3.c`, and compile bytecode found in `ex8_3.out`.
+
+Bytecode run succefully in `Machine.java`.
+
+```cmd
+> java Machine.java .\ex8_3.out 3
+0 1 2 
+Ran 0.002 seconds
+```
+
 ### Exercise 8.4
 
 ### Exercise 8.5
