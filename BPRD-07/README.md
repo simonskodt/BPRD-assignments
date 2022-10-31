@@ -6,7 +6,7 @@ Assignment 7 in 'Programmer som data'.
 
 ### Exercise 8.1
 
-Part (i)
+**Part (i)**
 
 ```fsharp
 > open ParseAndComp;;
@@ -24,8 +24,8 @@ val it: Machine.instr list =
    GETBP; CSTI 2; ADD; LDI; ADD; CSTI 0; STI; STI; INCSP -1; GETBP; CSTI 2;
    ADD; ...]
 
-   javac Machine.java
-   java Machine.java .\ex11.out 8
+   > javac Machine.java
+   > java Machine.java .\ex11.out 8
    1 5 8 6 3 7 2 4 
    1 6 8 3 7 4 2 5
    1 7 4 6 8 2 5 3
@@ -122,12 +122,45 @@ val it: Machine.instr list =
    Ran 0.225 seconds
 ```
 
+**Part (ii)**
+
+```fsharp
+> compileToFile (fromFile "ex3.c") "ex3.out";;
+val it: Machine.instr list =
+  [LDARGS; CALL (1, "L1"); STOP; Label "L1"; INCSP 1; GETBP; CSTI 1; ADD;
+  [LDARGS; CALL (1, "L1"); STOP; Label "L1"; INCSP 1; GETBP; CSTI 1; ADD;
+   GETBP; CSTI 0; ADD; LDI; STI; INCSP -1; INCSP 1; GETBP; CSTI 0; ADD; LDI;
+   GETBP; CSTI 2; ADD; CALL (2, "L2"); INCSP -1; GETBP; CSTI 2; ADD; LDI;
+   PRINTI; INCSP -1; INCSP -1; GETBP; CSTI 1; ADD; LDI; PRINTI; INCSP -1;
+   INCSP -1; RET 0; Label "L2"; GETBP; CSTI 1; ADD; LDI; GETBP; CSTI 0; ADD;
+   LDI; GETBP; CSTI 0; ADD; LDI; MUL; STI; INCSP -1; INCSP 0; RET 1]
+
+> java Machine.java .\ex3.out 3     
+  0 1 2
+  Ran 0.029 seconds
+```
+
+```fsharp
+> compileToFile (fromFile "ex5.c") "ex5.out";;
+  val it: Machine.instr list =
+    [LDARGS; CALL (1, "L1"); STOP; Label "L1"; INCSP 1; GETBP; CSTI 1; ADD;
+     GETBP; CSTI 0; ADD; LDI; STI; INCSP -1; INCSP 1; GETBP; CSTI 0; ADD; LDI;
+     GETBP; CSTI 2; ADD; CALL (2, "L2"); INCSP -1; GETBP; CSTI 2; ADD; LDI;
+     PRINTI; INCSP -1; INCSP -1; GETBP; CSTI 1; ADD; LDI; PRINTI; INCSP -1;
+     INCSP -1; RET 0; Label "L2"; GETBP; CSTI 1; ADD; LDI; GETBP; CSTI 0; ADD;
+     LDI; GETBP; CSTI 0; ADD; LDI; MUL; STI; INCSP -1; INCSP 0; RET 1]
+
+> java Machine.java .\ex5.out 4
+  16 4 
+  Ran 0.03 seconds     
+```
+
 The structured bytecode for `ex3.c` and `ex5.c` can be found in `ex3_assembly.out` and `ex5_assembly.out`
 
-Executing ex3.out in java
+Executing `ex3.out` in java
 
 ```cmd
- ☀️ java Machine ex3.out 10
+> java Machine ex3.out 10
 0 1 2 3 4 5 6 7 8 9 
 Ran 0.019 seconds
 ```
