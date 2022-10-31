@@ -17,7 +17,7 @@
 [ 4 -999 4 0 0 2 0 ]{51: ADD}         |
 [ 4 -999 4 0 0 2 ]{52: LDI}           |
 [ 4 -999 4 0 0 4 ]{53: LT}        | less than (i < n)
-[ 4 -999 4 0 1 ]{54: IFNZRO 18}      | if expr is true
+[ 4 -999 4 0 1 ]{54: IFNZRO 18}      | if expr is false
 [ 4 -999 4 0 ]{18: GETBP}        |
 [ 4 -999 4 0 2 ]{19: CSTI 1}     | load i
 [ 4 -999 4 0 2 1 ]{21: ADD}      |
@@ -45,7 +45,7 @@
 [ 4 -999 4 1 1 2 0 ]{51: ADD}     |
 [ 4 -999 4 1 1 2 ]{52: LDI}       |
 [ 4 -999 4 1 1 4 ]{53: LT}           | i less than n
-[ 4 -999 4 1 1 ]{54: IFNZRO 18}   | if expr is true
+[ 4 -999 4 1 1 ]{54: IFNZRO 18}   | if expr is false
 [ 4 -999 4 1 ]{18: GETBP}      |
 [ 4 -999 4 1 2 ]{19: CSTI 1}   | load i
 [ 4 -999 4 1 2 1 ]{21: ADD}    |
@@ -73,7 +73,7 @@
 [ 4 -999 4 2 2 2 0 ]{51: ADD}       |
 [ 4 -999 4 2 2 2 ]{52: LDI}         |
 [ 4 -999 4 2 2 4 ]{53: LT}              | i less than n
-[ 4 -999 4 2 1 ]{54: IFNZRO 18}       | if statement is true
+[ 4 -999 4 2 1 ]{54: IFNZRO 18}       | if statement is false
 [ 4 -999 4 2 ]{18: GETBP}       |
 [ 4 -999 4 2 2 ]{19: CSTI 1}    | load i    
 [ 4 -999 4 2 2 1 ]{21: ADD}     |
@@ -129,7 +129,7 @@
 [ 4 -999 4 4 4 2 0 ]{51: ADD}       |
 [ 4 -999 4 4 4 2 ]{52: LDI}         |
 [ 4 -999 4 4 4 4 ]{53: LT}              | i less than n
-[ 4 -999 4 4 0 ]{54: IFNZRO 18}         | if stmt is true
+[ 4 -999 4 4 0 ]{54: IFNZRO 18}         | if stmt is false
 [ 4 -999 4 4 ]{56: INCSP -1}            | end of expr
 [ 4 -999 4 ]{58: RET 0}             | return successfully from main
 [ 4 ]{4: STOP}
