@@ -181,6 +181,22 @@ Ran 0.002 seconds
 
 ### Exercise 8.4
 
+**ex8.c**
+
+Structured bytecode for `ex8.c` and `prog1` can be found in `ex8.out` and `prog1.out`.
+
+First of all, prog1 does not need to:
+
+- Setup main.
+- Initialise the variable i.
+- Store 20_000_000 in i.
+- Handle new scope
+- For the expression `i = i - 1`, prog1 handles that itself via DUP.
+
+**ex13.c**
+
+
+
 ### Exercise 8.5
 
 ### Exercise 8.6
