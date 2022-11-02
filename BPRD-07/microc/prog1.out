@@ -1,0 +1,7 @@
+ 0: CSTI 20000000 
+16: GOTO 7 
+ 0: CSTI 1 
+ 2: SUB 
+ 9: DUP 
+18: IFNZRO 4 
+25: STOP
