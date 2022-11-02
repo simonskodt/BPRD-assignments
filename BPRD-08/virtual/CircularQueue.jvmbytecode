@@ -1,0 +1,303 @@
+Compiled from "CircularQueue.java"
+class CircularQueue extends java.lang.Object
+  Signature: length = 0x2
+   00 32 
+  SourceFile: "CircularQueue.java"
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#28.#53;	//  java/lang/Object."<init>":()V
+const #2 = Field	#15.#54;	//  CircularQueue.count:I
+const #3 = Field	#15.#55;	//  CircularQueue.deqAt:I
+const #4 = class	#56;	//  java/util/ArrayList
+const #5 = Method	#4.#57;	//  java/util/ArrayList."<init>":(I)V
+const #6 = Field	#15.#58;	//  CircularQueue.items:Ljava/util/ArrayList;
+const #7 = Method	#4.#59;	//  java/util/ArrayList.add:(Ljava/lang/Object;)Z
+const #8 = Method	#4.#60;	//  java/util/ArrayList.get:(I)Ljava/lang/Object;
+const #9 = Method	#4.#61;	//  java/util/ArrayList.set:(ILjava/lang/Object;)Ljava/lang/Object;
+const #10 = Method	#4.#62;	//  java/util/ArrayList.size:()I
+const #11 = class	#63;	//  java/lang/RuntimeException
+const #12 = String	#64;	//  Queue empty
+const #13 = Method	#11.#65;	//  java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+const #14 = String	#66;	//  Queue full
+const #15 = class	#67;	//  CircularQueue
+const #16 = Method	#15.#57;	//  CircularQueue."<init>":(I)V
+const #17 = double	1.2d;
+const #19 = Method	#68.#69;	//  java/lang/Double.valueOf:(D)Ljava/lang/Double;
+const #20 = Method	#15.#70;	//  CircularQueue.enqueue:(Ljava/lang/Object;)V
+const #21 = double	3.4d;
+const #23 = Field	#71.#72;	//  java/lang/System.out:Ljava/io/PrintStream;
+const #24 = Method	#15.#73;	//  CircularQueue.dequeue:()Ljava/lang/Object;
+const #25 = Method	#74.#75;	//  java/io/PrintStream.println:(Ljava/lang/Object;)V
+const #26 = double	5.6d;
+const #28 = class	#76;	//  java/lang/Object
+const #29 = Asciz	items;
+const #30 = Asciz	Ljava/util/ArrayList;;
+const #31 = Asciz	Signature;
+const #32 = Asciz	Ljava/util/ArrayList<TT;>;;
+const #33 = Asciz	count;
+const #34 = Asciz	I;
+const #35 = Asciz	deqAt;
+const #36 = Asciz	<init>;
+const #37 = Asciz	(I)V;
+const #38 = Asciz	Code;
+const #39 = Asciz	LineNumberTable;
+const #40 = Asciz	StackMapTable;
+const #41 = class	#67;	//  CircularQueue
+const #42 = Asciz	dequeue;
+const #43 = Asciz	()Ljava/lang/Object;;
+const #44 = Asciz	()TT;;
+const #45 = Asciz	enqueue;
+const #46 = Asciz	(Ljava/lang/Object;)V;
+const #47 = Asciz	(TT;)V;
+const #48 = Asciz	main;
+const #49 = Asciz	([Ljava/lang/String;)V;
+const #50 = Asciz	<T:Ljava/lang/Object;>Ljava/lang/Object;;
+const #51 = Asciz	SourceFile;
+const #52 = Asciz	CircularQueue.java;
+const #53 = NameAndType	#36:#77;//  "<init>":()V
+const #54 = NameAndType	#33:#34;//  count:I
+const #55 = NameAndType	#35:#34;//  deqAt:I
+const #56 = Asciz	java/util/ArrayList;
+const #57 = NameAndType	#36:#37;//  "<init>":(I)V
+const #58 = NameAndType	#29:#30;//  items:Ljava/util/ArrayList;
+const #59 = NameAndType	#78:#79;//  add:(Ljava/lang/Object;)Z
+const #60 = NameAndType	#80:#81;//  get:(I)Ljava/lang/Object;
+const #61 = NameAndType	#82:#83;//  set:(ILjava/lang/Object;)Ljava/lang/Object;
+const #62 = NameAndType	#84:#85;//  size:()I
+const #63 = Asciz	java/lang/RuntimeException;
+const #64 = Asciz	Queue empty;
+const #65 = NameAndType	#36:#86;//  "<init>":(Ljava/lang/String;)V
+const #66 = Asciz	Queue full;
+const #67 = Asciz	CircularQueue;
+const #68 = class	#87;	//  java/lang/Double
+const #69 = NameAndType	#88:#89;//  valueOf:(D)Ljava/lang/Double;
+const #70 = NameAndType	#45:#46;//  enqueue:(Ljava/lang/Object;)V
+const #71 = class	#90;	//  java/lang/System
+const #72 = NameAndType	#91:#92;//  out:Ljava/io/PrintStream;
+const #73 = NameAndType	#42:#43;//  dequeue:()Ljava/lang/Object;
+const #74 = class	#93;	//  java/io/PrintStream
+const #75 = NameAndType	#94:#46;//  println:(Ljava/lang/Object;)V
+const #76 = Asciz	java/lang/Object;
+const #77 = Asciz	()V;
+const #78 = Asciz	add;
+const #79 = Asciz	(Ljava/lang/Object;)Z;
+const #80 = Asciz	get;
+const #81 = Asciz	(I)Ljava/lang/Object;;
+const #82 = Asciz	set;
+const #83 = Asciz	(ILjava/lang/Object;)Ljava/lang/Object;;
+const #84 = Asciz	size;
+const #85 = Asciz	()I;
+const #86 = Asciz	(Ljava/lang/String;)V;
+const #87 = Asciz	java/lang/Double;
+const #88 = Asciz	valueOf;
+const #89 = Asciz	(D)Ljava/lang/Double;;
+const #90 = Asciz	java/lang/System;
+const #91 = Asciz	out;
+const #92 = Asciz	Ljava/io/PrintStream;;
+const #93 = Asciz	java/io/PrintStream;
+const #94 = Asciz	println;
+
+{
+public CircularQueue(int);
+  Code:
+   Stack=4, Locals=3, Args_size=2
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	aload_0
+   5:	iconst_0
+   6:	putfield	#2; //Field count:I
+   9:	aload_0
+   10:	iconst_0
+   11:	putfield	#3; //Field deqAt:I
+   14:	aload_0
+   15:	new	#4; //class java/util/ArrayList
+   18:	dup
+   19:	iload_1
+   20:	invokespecial	#5; //Method java/util/ArrayList."<init>":(I)V
+   23:	putfield	#6; //Field items:Ljava/util/ArrayList;
+   26:	iconst_0
+   27:	istore_2
+   28:	iload_2
+   29:	iload_1
+   30:	if_icmpge	48
+   33:	aload_0
+   34:	getfield	#6; //Field items:Ljava/util/ArrayList;
+   37:	aconst_null
+   38:	invokevirtual	#7; //Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+   41:	pop
+   42:	iinc	2, 1
+   45:	goto	28
+   48:	return
+  LineNumberTable: 
+   line 11: 0
+   line 8: 4
+   line 9: 9
+   line 12: 14
+   line 13: 26
+   line 14: 33
+   line 13: 42
+   line 15: 48
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 255 /* full_frame */
+     offset_delta = 28
+     locals = [ class CircularQueue, int, int ]
+     stack = []
+   frame_type = 250 /* chop */
+     offset_delta = 19
+
+
+public java.lang.Object dequeue();
+  Code:
+   Stack=3, Locals=2, Args_size=1
+   0:	aload_0
+   1:	getfield	#2; //Field count:I
+   4:	ifle	62
+   7:	aload_0
+   8:	dup
+   9:	getfield	#2; //Field count:I
+   12:	iconst_1
+   13:	isub
+   14:	putfield	#2; //Field count:I
+   17:	aload_0
+   18:	getfield	#6; //Field items:Ljava/util/ArrayList;
+   21:	aload_0
+   22:	getfield	#3; //Field deqAt:I
+   25:	invokevirtual	#8; //Method java/util/ArrayList.get:(I)Ljava/lang/Object;
+   28:	astore_1
+   29:	aload_0
+   30:	getfield	#6; //Field items:Ljava/util/ArrayList;
+   33:	aload_0
+   34:	getfield	#3; //Field deqAt:I
+   37:	aconst_null
+   38:	invokevirtual	#9; //Method java/util/ArrayList.set:(ILjava/lang/Object;)Ljava/lang/Object;
+   41:	pop
+   42:	aload_0
+   43:	aload_0
+   44:	getfield	#3; //Field deqAt:I
+   47:	iconst_1
+   48:	iadd
+   49:	aload_0
+   50:	getfield	#6; //Field items:Ljava/util/ArrayList;
+   53:	invokevirtual	#10; //Method java/util/ArrayList.size:()I
+   56:	irem
+   57:	putfield	#3; //Field deqAt:I
+   60:	aload_1
+   61:	areturn
+   62:	new	#11; //class java/lang/RuntimeException
+   65:	dup
+   66:	ldc	#12; //String Queue empty
+   68:	invokespecial	#13; //Method java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+   71:	athrow
+  LineNumberTable: 
+   line 18: 0
+   line 19: 7
+   line 20: 17
+   line 21: 29
+   line 22: 42
+   line 23: 60
+   line 25: 62
+
+  StackMapTable: number_of_entries = 1
+   frame_type = 62 /* same */
+
+  Signature: length = 0x2
+   00 2C 
+
+public void enqueue(java.lang.Object);
+  Code:
+   Stack=3, Locals=2, Args_size=2
+   0:	aload_0
+   1:	getfield	#2; //Field count:I
+   4:	aload_0
+   5:	getfield	#6; //Field items:Ljava/util/ArrayList;
+   8:	invokevirtual	#10; //Method java/util/ArrayList.size:()I
+   11:	if_icmpge	53
+   14:	aload_0
+   15:	getfield	#6; //Field items:Ljava/util/ArrayList;
+   18:	aload_0
+   19:	getfield	#3; //Field deqAt:I
+   22:	aload_0
+   23:	getfield	#2; //Field count:I
+   26:	iadd
+   27:	aload_0
+   28:	getfield	#6; //Field items:Ljava/util/ArrayList;
+   31:	invokevirtual	#10; //Method java/util/ArrayList.size:()I
+   34:	irem
+   35:	aload_1
+   36:	invokevirtual	#9; //Method java/util/ArrayList.set:(ILjava/lang/Object;)Ljava/lang/Object;
+   39:	pop
+   40:	aload_0
+   41:	dup
+   42:	getfield	#2; //Field count:I
+   45:	iconst_1
+   46:	iadd
+   47:	putfield	#2; //Field count:I
+   50:	goto	63
+   53:	new	#11; //class java/lang/RuntimeException
+   56:	dup
+   57:	ldc	#14; //String Queue full
+   59:	invokespecial	#13; //Method java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+   62:	athrow
+   63:	return
+  LineNumberTable: 
+   line 29: 0
+   line 30: 14
+   line 31: 40
+   line 33: 53
+   line 34: 63
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 53 /* same */
+   frame_type = 9 /* same */
+
+  Signature: length = 0x2
+   00 2F 
+
+public static void main(java.lang.String[]);
+  Code:
+   Stack=3, Locals=2, Args_size=1
+   0:	new	#15; //class CircularQueue
+   3:	dup
+   4:	iconst_2
+   5:	invokespecial	#16; //Method "<init>":(I)V
+   8:	astore_1
+   9:	aload_1
+   10:	ldc2_w	#17; //double 1.2d
+   13:	invokestatic	#19; //Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+   16:	invokevirtual	#20; //Method enqueue:(Ljava/lang/Object;)V
+   19:	aload_1
+   20:	ldc2_w	#21; //double 3.4d
+   23:	invokestatic	#19; //Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+   26:	invokevirtual	#20; //Method enqueue:(Ljava/lang/Object;)V
+   29:	getstatic	#23; //Field java/lang/System.out:Ljava/io/PrintStream;
+   32:	aload_1
+   33:	invokevirtual	#24; //Method dequeue:()Ljava/lang/Object;
+   36:	invokevirtual	#25; //Method java/io/PrintStream.println:(Ljava/lang/Object;)V
+   39:	aload_1
+   40:	ldc2_w	#26; //double 5.6d
+   43:	invokestatic	#19; //Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+   46:	invokevirtual	#20; //Method enqueue:(Ljava/lang/Object;)V
+   49:	getstatic	#23; //Field java/lang/System.out:Ljava/io/PrintStream;
+   52:	aload_1
+   53:	invokevirtual	#24; //Method dequeue:()Ljava/lang/Object;
+   56:	invokevirtual	#25; //Method java/io/PrintStream.println:(Ljava/lang/Object;)V
+   59:	getstatic	#23; //Field java/lang/System.out:Ljava/io/PrintStream;
+   62:	aload_1
+   63:	invokevirtual	#24; //Method dequeue:()Ljava/lang/Object;
+   66:	invokevirtual	#25; //Method java/io/PrintStream.println:(Ljava/lang/Object;)V
+   69:	return
+  LineNumberTable: 
+   line 38: 0
+   line 39: 9
+   line 40: 19
+   line 41: 29
+   line 42: 39
+   line 43: 49
+   line 44: 59
+   line 45: 69
+
+
+}
+

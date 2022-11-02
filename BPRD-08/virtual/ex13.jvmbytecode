@@ -1,0 +1,45 @@
+Compiled from "ex13.java"
+class ex13 extends java.lang.Object{
+ex13();
+  Code:
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	return
+
+public static void main(java.lang.String[]);
+  Code:
+   0:	aload_0
+   1:	iconst_0
+   2:	aaload
+   3:	invokestatic	#2; //Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+   6:	istore_1
+   7:	sipush	1889
+   10:	istore_2
+   11:	iload_2
+   12:	iload_1
+   13:	if_icmpge	48
+   16:	iload_2
+   17:	iconst_1
+   18:	iadd
+   19:	istore_2
+   20:	iload_2
+   21:	iconst_4
+   22:	irem
+   23:	ifne	11
+   26:	iload_2
+   27:	bipush	100
+   29:	irem
+   30:	ifne	41
+   33:	iload_2
+   34:	sipush	400
+   37:	irem
+   38:	ifne	11
+   41:	iload_2
+   42:	invokestatic	#3; //Method InOut.printi:(I)V
+   45:	goto	11
+   48:	bipush	10
+   50:	invokestatic	#4; //Method InOut.printc:(C)V
+   53:	return
+
+}
+
