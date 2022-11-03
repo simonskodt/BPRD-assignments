@@ -211,7 +211,11 @@ conditionals:
 
 ### Exercise 8.5
 
-Write here.
+We have extended in `Absyn.fs`, `CLex.fsl`, `CPar.fsy` and `Comp.fs`.
+
+Example Micro-C file in `ex8_5.c` and compiled bytecode in `ex8_5.out`
+
+Tested with Machine.java and we got succesful result:
 
 ```cmd
 val it: Machine.instr list =
@@ -228,3 +232,27 @@ Ran 0.002 seconds
 ```
 
 ### Exercise 8.6
+We have extended in `Absyn.fs`, `CLex.fsl`, `CPar.fsy` and `Comp.fs`.
+
+Example Micro-C file in `ex8_6.c` and compiled bytecode in `ex8_6.out`
+
+Tested with Machine.java and we got succesful result:
+
+```cmd
+val it: Machine.instr list =
+  [LDARGS; CALL (2, "L1"); STOP; Label "L1"; INCSP 1; GETBP; CSTI 0; ADD; LDI;
+   CSTI 3; EQ; IFNZRO "L5"; GETBP; CSTI 0; ADD; LDI; CSTI 2; EQ; IFNZRO "L4";
+   GETBP; CSTI 0; ADD; LDI; CSTI 1; EQ; IFNZRO "L3"; Label "L5"; GETBP; CSTI 2;
+   ADD; CSTI 31; STI; INCSP -1; INCSP 0; GOTO "L2"; Label "L4"; GETBP; CSTI 2;
+   ADD; CSTI 28; STI; INCSP -1; GETBP; CSTI 1; ADD; LDI; CSTI 4; MOD; CSTI 0;
+   EQ; IFZERO "L6"; GETBP; CSTI 2; ADD; CSTI 29; STI; INCSP -1; GOTO "L7";
+   Label "L6"; INCSP 0; Label "L7"; INCSP 0; GOTO "L2"; Label "L3"; GETBP;
+   CSTI 2; ADD; CSTI 31; STI; INCSP -1; INCSP 0; GOTO "L2"; Label "L2"; GETBP;
+   CSTI 2; ADD; LDI; PRINTI; INCSP -1; INCSP -1; RET 1]
+```
+
+```cmd
+> java Machine.java .\ex8_6.out 2 2004 
+29 
+Ran 0.001 seconds
+```
