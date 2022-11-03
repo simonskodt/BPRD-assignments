@@ -1,0 +1,41 @@
+24: LDARGS 
+19: CALL 0 5 
+25: STOP 
+15: INCSP 1 
+
+13: GETBP 
+ 0: CSTI 0 
+ 1: ADD
+
+ 0: CSTI 20000000 
+12: STI 
+15: INCSP -1 
+
+16: GOTO 35       | same
+
+13: GETBP 
+ 0: CSTI 0 
+ 1: ADD 
+
+13: GETBP 
+ 0: CSTI 0 
+ 1: ADD 
+11: LDI 
+ 
+ 0: CSTI 1        | same
+ 2: SUB           | same
+12: STI 
+
+15: INCSP -1 
+15: INCSP 0 
+
+13: GETBP 
+ 0: CSTI 0 
+ 1: ADD 
+11: LDI 
+
+18: IFNZRO 18     | same
+
+15: INCSP -1 
+
+21: RET -1        | same

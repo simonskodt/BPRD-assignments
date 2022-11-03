@@ -1,0 +1,253 @@
+Classfile /C:/Users/simon/OneDrive/Skrivebord/5_semester/PRDAT_Programmer-som-data/BPRD-assignments/BPRD-08/virtual/Selsort.class
+  Last modified 2. nov. 2022; size 1347 bytes
+  SHA-256 checksum 45b6eb74a9fd249e70791adc6be4f81f18979314c86434a5856471ee32a54889
+  Compiled from "Selsort.java"
+class Selsort
+  minor version: 0
+  major version: 63
+  flags: (0x0020) ACC_SUPER
+  this_class: #8                          // Selsort
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 1, methods: 4, attributes: 3
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Fieldref           #8.#9          // Selsort.rnd:Ljava/util/Random;
+   #8 = Class              #10            // Selsort
+   #9 = NameAndType        #11:#12        // rnd:Ljava/util/Random;
+  #10 = Utf8               Selsort
+  #11 = Utf8               rnd
+  #12 = Utf8               Ljava/util/Random;
+  #13 = Integer            1000000
+  #14 = Methodref          #15.#16        // java/util/Random.nextInt:(I)I
+  #15 = Class              #17            // java/util/Random
+  #16 = NameAndType        #18:#19        // nextInt:(I)I
+  #17 = Utf8               java/util/Random
+  #18 = Utf8               nextInt
+  #19 = Utf8               (I)I
+  #20 = Methodref          #8.#21         // Selsort.SelectionSort:([I)V
+  #21 = NameAndType        #22:#23        // SelectionSort:([I)V
+  #22 = Utf8               SelectionSort
+  #23 = Utf8               ([I)V
+  #24 = Fieldref           #25.#26        // java/lang/System.out:Ljava/io/PrintStream;
+  #25 = Class              #27            // java/lang/System
+  #26 = NameAndType        #28:#29        // out:Ljava/io/PrintStream;
+  #27 = Utf8               java/lang/System
+  #28 = Utf8               out
+  #29 = Utf8               Ljava/io/PrintStream;
+  #30 = InvokeDynamic      #0:#31         // #0:makeConcatWithConstants:(I)Ljava/lang/String;
+  #31 = NameAndType        #32:#33        // makeConcatWithConstants:(I)Ljava/lang/String;
+  #32 = Utf8               makeConcatWithConstants
+  #33 = Utf8               (I)Ljava/lang/String;
+  #34 = Methodref          #35.#36        // java/io/PrintStream.print:(Ljava/lang/String;)V
+  #35 = Class              #37            // java/io/PrintStream
+  #36 = NameAndType        #38:#39        // print:(Ljava/lang/String;)V
+  #37 = Utf8               java/io/PrintStream
+  #38 = Utf8               print
+  #39 = Utf8               (Ljava/lang/String;)V
+  #40 = Methodref          #35.#41        // java/io/PrintStream.println:()V
+  #41 = NameAndType        #42:#6         // println:()V
+  #42 = Utf8               println
+  #43 = Methodref          #15.#3         // java/util/Random."<init>":()V
+  #44 = Utf8               Code
+  #45 = Utf8               LineNumberTable
+  #46 = Utf8               main
+  #47 = Utf8               ([Ljava/lang/String;)V
+  #48 = Utf8               StackMapTable
+  #49 = Class              #50            // "[I"
+  #50 = Utf8               [I
+  #51 = Utf8               <clinit>
+  #52 = Utf8               SourceFile
+  #53 = Utf8               Selsort.java
+  #54 = Utf8               BootstrapMethods
+  #55 = MethodHandle       6:#56          // REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #56 = Methodref          #57.#58        // java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #57 = Class              #59            // java/lang/invoke/StringConcatFactory
+  #58 = NameAndType        #32:#60        // makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #59 = Utf8               java/lang/invoke/StringConcatFactory
+  #60 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #61 = String             #62            // \u0001
+  #62 = Utf8               \u0001
+  #63 = Utf8               InnerClasses
+  #64 = Class              #65            // java/lang/invoke/MethodHandles$Lookup
+  #65 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #66 = Class              #67            // java/lang/invoke/MethodHandles
+  #67 = Utf8               java/lang/invoke/MethodHandles
+  #68 = Utf8               Lookup
+{
+  public static final java.util.Random rnd;
+    descriptor: Ljava/util/Random;
+    flags: (0x0019) ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+
+  Selsort();
+    descriptor: ()V
+    flags: (0x0000)
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 6: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=4, args_size=1
+         0: bipush        10
+         2: istore_1
+         3: iload_1
+         4: newarray       int
+         6: astore_2
+         7: iconst_0
+         8: istore_3
+         9: iload_3
+        10: iload_1
+        11: if_icmpge     31
+        14: aload_2
+        15: iload_3
+        16: getstatic     #7                  // Field rnd:Ljava/util/Random;
+        19: ldc           #13                 // int 1000000
+        21: invokevirtual #14                 // Method java/util/Random.nextInt:(I)I
+        24: iastore
+        25: iinc          3, 1
+        28: goto          9
+        31: aload_2
+        32: invokestatic  #20                 // Method SelectionSort:([I)V
+        35: iconst_0
+        36: istore_3
+        37: iload_3
+        38: iload_1
+        39: if_icmpge     62
+        42: getstatic     #24                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        45: aload_2
+        46: iload_3
+        47: iaload
+        48: invokedynamic #30,  0             // InvokeDynamic #0:makeConcatWithConstants:(I)Ljava/lang/String;
+        53: invokevirtual #34                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+        56: iinc          3, 1
+        59: goto          37
+        62: getstatic     #24                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        65: invokevirtual #40                 // Method java/io/PrintStream.println:()V
+        68: return
+      LineNumberTable:
+        line 8: 0
+        line 9: 3
+        line 10: 7
+        line 11: 14
+        line 10: 25
+        line 12: 31
+        line 13: 35
+        line 14: 42
+        line 13: 56
+        line 15: 62
+        line 16: 68
+      StackMapTable: number_of_entries = 4
+        frame_type = 254 /* append */
+          offset_delta = 9
+          locals = [ int, class "[I", int ]
+        frame_type = 250 /* chop */
+          offset_delta = 21
+        frame_type = 252 /* append */
+          offset_delta = 5
+          locals = [ int ]
+        frame_type = 250 /* chop */
+          offset_delta = 24
+
+  public static void SelectionSort(int[]);
+    descriptor: ([I)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=4, args_size=1
+         0: iconst_0
+         1: istore_1
+         2: iload_1
+         3: aload_0
+         4: arraylength
+         5: if_icmpge     57
+         8: iload_1
+         9: istore_2
+        10: iload_1
+        11: iconst_1
+        12: iadd
+        13: istore_3
+        14: iload_3
+        15: aload_0
+        16: arraylength
+        17: if_icmpge     37
+        20: aload_0
+        21: iload_3
+        22: iaload
+        23: aload_0
+        24: iload_2
+        25: iaload
+        26: if_icmpge     31
+        29: iload_3
+        30: istore_2
+        31: iinc          3, 1
+        34: goto          14
+        37: aload_0
+        38: iload_1
+        39: iaload
+        40: istore_3
+        41: aload_0
+        42: iload_1
+        43: aload_0
+        44: iload_2
+        45: iaload
+        46: iastore
+        47: aload_0
+        48: iload_2
+        49: iload_3
+        50: iastore
+        51: iinc          1, 1
+        54: goto          2
+        57: return
+      LineNumberTable:
+        line 21: 0
+        line 22: 8
+        line 23: 10
+        line 24: 20
+        line 25: 29
+        line 23: 31
+        line 26: 37
+        line 21: 51
+        line 28: 57
+      StackMapTable: number_of_entries = 5
+        frame_type = 252 /* append */
+          offset_delta = 2
+          locals = [ int ]
+        frame_type = 253 /* append */
+          offset_delta = 11
+          locals = [ int, int ]
+        frame_type = 16 /* same */
+        frame_type = 250 /* chop */
+          offset_delta = 5
+        frame_type = 249 /* chop */
+          offset_delta = 19
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=2, locals=0, args_size=0
+         0: new           #15                 // class java/util/Random
+         3: dup
+         4: invokespecial #43                 // Method java/util/Random."<init>":()V
+         7: putstatic     #7                  // Field rnd:Ljava/util/Random;
+        10: return
+      LineNumberTable:
+        line 18: 0
+}
+SourceFile: "Selsort.java"
+BootstrapMethods:
+  0: #55 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #61 \u0001
+InnerClasses:
+  public static final #68= #64 of #66;    // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles

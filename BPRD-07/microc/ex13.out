@@ -1,0 +1,76 @@
+24: LDARGS    |
+19: CALL 1 5  | setup program
+25: STOP      |
+
+15: INCSP 1 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD
+ 0: CSTI 1889 
+12: STI 
+15: INCSP -1 
+16: GOTO 95 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD 
+11: LDI 
+ 0: CSTI 1 
+ 1: ADD 
+12: STI 
+15: INCSP -1 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD 
+11: LDI 
+ 0: CSTI 4 
+ 5: MOD 
+ 0: CSTI 0 
+ 6: EQ 
+17: IFZERO 77 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD 
+11: LDI 
+ 0: CSTI 100 
+ 5: MOD 
+ 0: CSTI 0 
+ 6: EQ 
+ 8: NOT 
+18: IFNZRO 73 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD 
+11: LDI 
+ 0: CSTI 400 
+ 5: MOD 
+ 0: CSTI 0 
+ 6: EQ 
+16: GOTO 75 
+ 0: CSTI 1 
+16: GOTO 79 
+ 0: CSTI 0 
+17: IFZERO 91 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD 
+11: LDI 
+22: PRINTI 
+15: INCSP -1 
+16: GOTO 93 
+15: INCSP 0 
+15: INCSP 0 
+13: GETBP 
+ 0: CSTI 1 
+ 1: ADD 
+11: LDI 
+13: GETBP 
+ 0: CSTI 0 
+ 1: ADD 
+11: LDI 
+ 7: LT 
+18: IFNZRO 18 
+15: INCSP -1 
+21: RET 0
