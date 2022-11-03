@@ -2,75 +2,87 @@
 19: CALL 1 5  | setup program
 25: STOP      |
 
-15: INCSP 1 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD
- 0: CSTI 1889 
-12: STI 
+15: INCSP 1   | 
+13: GETBP     | get &y (addres of y)
+ 0: CSTI 1    |
+ 1: ADD       |
+ 0: CSTI 1889    | y = 1889
+12: STI          | 
 15: INCSP -1 
-16: GOTO 95 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD 
-11: LDI 
- 0: CSTI 1 
- 1: ADD 
-12: STI 
+16: GOTO 95   | while
+13: GETBP         |
+ 0: CSTI 1        | get &y
+ 1: ADD           |
+13: GETBP     |
+ 0: CSTI 1    | get *y 
+ 1: ADD       |
+11: LDI       |
+ 0: CSTI 1        | push 1
+ 1: ADD       | y + 1
+12: STI           | y = y + 1
 15: INCSP -1 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD 
-11: LDI 
- 0: CSTI 4 
- 5: MOD 
- 0: CSTI 0 
- 6: EQ 
-17: IFZERO 77 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD 
-11: LDI 
- 0: CSTI 100 
- 5: MOD 
- 0: CSTI 0 
- 6: EQ 
- 8: NOT 
-18: IFNZRO 73 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD 
-11: LDI 
- 0: CSTI 400 
- 5: MOD 
- 0: CSTI 0 
- 6: EQ 
-16: GOTO 75 
- 0: CSTI 1 
-16: GOTO 79 
- 0: CSTI 0 
-17: IFZERO 91 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD 
-11: LDI 
-22: PRINTI 
-15: INCSP -1 
-16: GOTO 93 
-15: INCSP 0 
-15: INCSP 0 
-13: GETBP 
- 0: CSTI 1 
- 1: ADD 
-11: LDI 
-13: GETBP 
- 0: CSTI 0 
- 1: ADD 
-11: LDI 
- 7: LT 
-18: IFNZRO 18 
-15: INCSP -1 
-21: RET 0
+13: GETBP     |
+ 0: CSTI 1    | get *y
+ 1: ADD       |
+11: LDI       |
+ 0: CSTI 4        | push 4
+ 5: MOD       | y % 4
+ 0: CSTI 0        | push 0
+ 6: EQ        | y % 4 == 0
+17: IFZERO 77     | if false goto 77
+13: GETBP     |
+ 0: CSTI 1    | get *y 
+ 1: ADD       |
+11: LDI       |
+ 0: CSTI 100      | push 100
+ 5: MOD       | y % 100
+ 0: CSTI 0        | push 0
+ 6: EQ        | negate (y % 100 == 0)
+ 8: NOT       |   
+18: IFNZRO 73     | i true goto 73
+13: GETBP     |
+ 0: CSTI 1    | get y*
+ 1: ADD       |
+11: LDI       |
+ 0: CSTI 400      | push 400
+ 5: MOD       | y % 400
+ 0: CSTI 0        | push 0
+ 6: EQ        | y % 400 == 0
+16: GOTO 75       | 
+ 0: CSTI 1        |
+16: GOTO 79       |
+ 0: CSTI 0        | if true
+17: IFZERO 91     | if (y % 4 == 0 && (y % 100 != 0 || y % 400 == 0))
+13: GETBP         | 
+ 0: CSTI 1        |
+ 1: ADD           |
+11: LDI           |
+22: PRINTI   | print y
+15: INCSP -1      |
+16: GOTO 93       |
+15: INCSP 0       |
+15: INCSP 0       |
+13: GETBP            |
+ 0: CSTI 1           | y
+ 1: ADD              | 
+11: LDI              |
+13: GETBP         |
+ 0: CSTI 0        |  n
+ 1: ADD           |
+11: LDI           |
+ 7: LT                | y < n
+18: IFNZRO 18     | if false goto 18
+15: INCSP -1      | go out of scope
+21: RET 0      | return
+
+val it: Machine.instr list =
+  [LDARGS; CALL (1, "L1"); STOP; Label "L1"; INCSP 1; GETBP; CSTI 1; ADD;        
+   CSTI 1889; STI; INCSP -1; GOTO "L3"; Label "L2"; GETBP; CSTI 1; ADD; GETBP;
+   CSTI 1; ADD; LDI; CSTI 1; ADD; STI; INCSP -1; GETBP; CSTI 1; ADD; LDI;
+   CSTI 4; MOD; CSTI 0; EQ; IFZERO "L7"; GETBP; CSTI 1; ADD; LDI; CSTI 100;      
+   MOD; CSTI 0; EQ; NOT; IFNZRO "L9"; GETBP; CSTI 1; ADD; LDI; CSTI 400; MOD;
+   CSTI 0; EQ; GOTO "L8"; Label "L9"; CSTI 1; Label "L8"; GOTO "L6";
+   Label "L7"; CSTI 0; Label "L6"; IFZERO "L4"; GETBP; CSTI 1; ADD; LDI;
+   PRINTI; INCSP -1; GOTO "L5"; Label "L4"; INCSP 0; Label "L5"; INCSP 0;
+   Label "L3"; GETBP; CSTI 1; ADD; LDI; GETBP; CSTI 0; ADD; LDI; LT;
+   IFNZRO "L2"; INCSP -1; RET 0]

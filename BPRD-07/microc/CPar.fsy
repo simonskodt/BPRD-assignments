@@ -18,11 +18,13 @@ let nl = CstI 10
 %token PLUS MINUS TIMES DIV MOD
 %token EQ NE GT LT GE LE INC DEC
 %token NOT SEQOR SEQAND
+%token QUE COL
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
 
 %right ASSIGN             /* lowest precedence */
 %nonassoc PRINT
+%right QUE COL
 %left SEQOR
 %left SEQAND
 %left EQ NE 
@@ -136,6 +138,7 @@ ExprNotAccess:
   | Expr SEQOR  Expr                    { Orelse($1, $3)      }
   | INC Access                          { PreInc($2)          }
   | DEC Access                          { PreDec($2)          }
+  | Expr QUE Expr COL Expr              { Ternary($1, $3, $5) }
 ;
 
 AtExprNotAccess:

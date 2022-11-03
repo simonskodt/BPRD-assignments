@@ -1,0 +1,17 @@
+24 19 0 5 25 0 1 0 1 6 17 19 0 2 0 3 6 16 21 0 0 17 32 0 1 22 15 -1 15 0 16 34 15 0 15 0 21 -1
+
+  [LDARGS; CALL (0, "L1"); STOP; 
+  
+  Label "L1"; CSTI 1; CSTI 1; EQ; IFZERO "L5"; 
+  
+  CSTI 2; CSTI 3; EQ; GOTO "L4"; 
+  
+  Label "L5"; CSTI 0; 
+  
+  Label "L4"; IFZERO "L2"; CSTI 1; PRINTI; INCSP -1; INCSP 0; GOTO "L3"; 
+  
+  Label "L2"; INCSP 0;
+  
+  Label "L3"; INCSP 0; 
+  
+  RET -1]
