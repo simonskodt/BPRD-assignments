@@ -195,10 +195,23 @@ First of all, prog1 does not need to:
 
 **ex13.c**
 
+loops:
+
+if conditional is true, go to start of loop
+
+conditionals:
+
+`||` and `&&` uses goto to handle the different branches. In short the difference is:
+
+`||` evaluates the first expression, and if it is true it runs the code inside the `if` statement. The second expression is then never run.
+
+`&&` evalutaes the first expression, and if it is false it skips the `if` statement. The second expression is never run.
+
+`if` just evaluates the expression, and runs the code if true.
 
 ### Exercise 8.5
 
-
+Write here.
 
 ```cmd
 val it: Machine.instr list =
