@@ -14,6 +14,8 @@ type token =
   | AMP
   | QUE
   | COL
+  | SWITCH
+  | CASE
   | NOT
   | SEQOR
   | SEQAND
@@ -58,6 +60,8 @@ type tokenId =
     | TOKEN_AMP
     | TOKEN_QUE
     | TOKEN_COL
+    | TOKEN_SWITCH
+    | TOKEN_CASE
     | TOKEN_NOT
     | TOKEN_SEQOR
     | TOKEN_SEQAND
@@ -104,6 +108,7 @@ type nonTerminalId =
     | NONTERM_StmtOrDecSeq
     | NONTERM_Stmt
     | NONTERM_StmtM
+    | NONTERM_Case
     | NONTERM_StmtU
     | NONTERM_Expr
     | NONTERM_ExprNotAccess

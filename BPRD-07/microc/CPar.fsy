@@ -18,7 +18,7 @@ let nl = CstI 10
 %token PLUS MINUS TIMES DIV MOD
 %token EQ NE GT LT GE LE INC DEC
 %token NOT SEQOR SEQAND
-%token QUE COL
+%token QUE COL SWITCH CASE
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
 
@@ -103,6 +103,13 @@ StmtM:  /* No unbalanced if-else */
   | Block                               { $1                   }
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
+  | SWITCH LPAR Expr RPAR LBRACE Case RBRACE   { Switch($3, $6)      }
+     
+;
+
+Case:
+     CASE CSTINT COL Stmt               { [($2, $4)]           }
+  |  CASE CSTINT COL Stmt Case          { ($2, $4) :: ($5)     }
 ;
 
 StmtU:

@@ -143,6 +143,25 @@ let rec cStmt stmt (varEnv : varEnv) (funEnv : funEnv) : instr list =
       [RET (snd varEnv - 1)]
     | Return (Some e) -> 
       cExpr e varEnv funEnv @ [RET (snd varEnv)]
+    | Switch(e, cases) -> 
+      let labend = newLabel()
+      // Add labels to each case
+      let caseLabels = List.map(fun (i, stmt) -> (i, stmt, newLabel())) cases
+      // Evaluate expr
+      let evalE = cExpr e varEnv funEnv
+      // Compare expr with case index. If true, go to label, and run stmt.
+      let gotoInstructionsLst = 
+        List.fold (fun acc (caseIndex, stmt, label) -> 
+          evalE @ [CSTI caseIndex] @ [EQ] @ [IFNZRO label] @ acc
+        ) [] caseLabels
+      // Make a label for each case, and get the bytecode instructions for the stmt.
+      let stmtInstructionsLst =
+        List.fold (fun acc (caseIndex, stmt, label) ->
+          [Label label] @ cStmt stmt varEnv funEnv @ [GOTO labend] @ acc
+        ) [] caseLabels
+      
+      gotoInstructionsLst @ stmtInstructionsLst @ [Label labend]
+      
 
 and cStmtOrDec stmtOrDec (varEnv : varEnv) (funEnv : funEnv) : varEnv * instr list = 
     match stmtOrDec with 
