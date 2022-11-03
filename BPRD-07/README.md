@@ -196,7 +196,22 @@ First of all, prog1 does not need to:
 **ex13.c**
 
 
-
 ### Exercise 8.5
+
+
+
+```cmd
+val it: Machine.instr list =
+  [LDARGS; CALL (0, "L1"); STOP; Label "L1"; CSTI 1; CSTI 1; EQ; IFZERO "L2";
+   CSTI 1; PRINTI; GOTO "L3"; Label "L2"; CSTI 2; PRINTI; Label "L3"; INCSP -1;
+   INCSP 0; RET -1]`
+```
+
+```cmd
+> java Machine.java .\ex8_5.out
+1 
+Ran 0.002 seconds
+
+```
 
 ### Exercise 8.6
