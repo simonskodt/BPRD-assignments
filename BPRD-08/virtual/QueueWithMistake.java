@@ -1,4 +1,4 @@
- // Lock-based queue with memory management mistake
+// Lock-based queue with memory management mistake
 // sestoft@itu.dk * 2013-10-20
 
 // The SentinelLockQueue is a simple lock-based concurrent queue, or
@@ -29,7 +29,7 @@ public class QueueWithMistake {
   }
 
   private static void runThreads(final int threads, final Queue queue) {
-    final int iterations = 20000000; // Increase this constant if program does not run out of memory.
+    final int iterations = 2000000000; // Increase this constant if program does not run out of memory.
     final Timer timer = new Timer();
     Thread[] ts = new Thread[threads];
     queue.put(-6);
@@ -101,6 +101,7 @@ class SentinelLockQueue implements Queue {
       return -999;
     Node first = head;
     head = first.next;
+    first = null;
     return head.item;
   }
 }
