@@ -24,13 +24,13 @@ After instantiating the `SentinelLockQueue`:
     <img src=setup.png />
 </p>
 
-After calling `put(i)`.
+After calling `put(i)`:
 
 <p align="center">
     <img src=put.png />
 </p>
 
-After calling `get()`.
+After calling `get()`:
 
 <p align="center">
     <img src=get.png />
