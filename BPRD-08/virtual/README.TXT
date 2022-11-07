@@ -12,6 +12,9 @@ A. An implementation of selection sort in Java as well as C#.
      csc /o Selsort.cs
      ildasm /text Selsort.exe > Selsort.il
 
+   With mono use can use monodis to dissemble:
+      monodis Selsort.exe > Selsort.il
+
    This will compile the Java version and then disassemble its Java
    Virtual Machine bytecode into text file Selsort.jvmbytecode:
 

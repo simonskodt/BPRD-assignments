@@ -1,10 +1,10 @@
-Classfile /C:/Users/simon/OneDrive/Skrivebord/5_semester/PRDAT_Programmer-som-data/BPRD-assignments/BPRD-08/virtual/Selsort.class
-  Last modified 2. nov. 2022; size 1347 bytes
-  SHA-256 checksum 45b6eb74a9fd249e70791adc6be4f81f18979314c86434a5856471ee32a54889
+Classfile /Users/nielshallenberg/Dropbox/Documents/Work/ITU/Course/BPRD-E2020/Lectures/Lec07/virtual/Selsort.class
+  Last modified 25 Oct 2020; size 1347 bytes
+  SHA-256 checksum 9aa0abbc07517ae797e9847a54fcc0ecad2d095737c68613494168eb69bb0c18
   Compiled from "Selsort.java"
 class Selsort
   minor version: 0
-  major version: 63
+  major version: 57
   flags: (0x0020) ACC_SUPER
   this_class: #8                          // Selsort
   super_class: #2                         // java/lang/Object
