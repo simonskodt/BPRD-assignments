@@ -12,8 +12,6 @@ Found in file `SelctionSort.il`.
 
 **Part (ii)**
 
-Found in file ``.
+Found in file `SelectionSort.jvmbytecode`.
 
 ### Exercise 8.3
-
-

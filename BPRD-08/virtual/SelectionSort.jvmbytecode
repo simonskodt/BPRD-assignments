@@ -1,0 +1,99 @@
+public static void SelectionSort(int[]);
+    descriptor: ([I)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=4, args_size=1            // Max depth of evaluation stack
+
+                                                // local avariable 0 = arr
+
+                                                // local lvariable 1 = i
+                                                // local lvariable 2 = least
+                                                // local lvariable 3 = j
+        // i = 0
+         0: iconst_0                // push int constant 0
+         1: istore_1                // store into local variable 1 (i = 0) 
+
+        // i < arr.length
+         2: iload_1                 // load local variable 1 (i)
+         3: aload_0                 // load local variable 0 (arr)
+         4: arraylength             // get length of array
+         5: if_icmpge     57        // branch if comparison succeeds (i >= arr)
+         
+        // least = i
+         8: iload_1                 // load local variable 1 (i)
+         9: istore_2                // store into local variable 2 (least = i)
+
+        // j = i + 1
+        10: iload_1                 // load local variable 1 (i)
+        11: iconst_1                // push int constant 1
+        12: iadd                    // add last two values (i + 1)
+        13: istore_3                // store into local variable 3 (j = i + 1)
+
+        // j < arr.length
+        14: iload_3                 // load local variable 3 (j)
+        15: aload_0                 // load local variable 0 (arr)
+        16: arraylength             // array length
+        17: if_icmpge     37        // branch if comparison succeeds (j >= arr)
+
+        // arr[j] < arr[least]
+        20: aload_0                 // load local variable 0 (arr)
+        21: iload_3                 // load local variable 3 (j)    
+        22: iaload                  // load int from array (arr[j])
+        23: aload_0                 // load local variable 0 (arr)
+        24: iload_2                 // load local variable 2 (least)
+        25: iaload                  // load int from array
+        26: if_icmpge     31        // branch if comparison succeeds (arr[j] >= arr[least])
+
+        // j++
+        29: iload_3                 // load local variable 3 (j)
+        30: istore_2                // store into local variable 2 (least)
+        31: iinc          3, 1      // increment local variable by constant (j = j + 1)
+        34: goto          14        // go to 14
+
+        // tmp = arr[i]
+        37: aload_0                 // load local variable 0 (arr)
+        38: iload_1                 // load local variable 1 (i)
+        39: iaload                  // load int from array (arr[i])
+        40: istore_3                // store into local variable 3 (j instead of tmp, because j is not used anymore)
+
+        // arr[i] = arr[least]
+        41: aload_0                 // load local variable 0 (arr)
+        42: iload_1                 // load local variable 1 (i)
+        43: aload_0                 // load local variable 0 (arr)
+        44: iload_2                 // load local variable 2 (least)
+        45: iaload                  // local int from array (arr[least])
+        46: iastore                 // store into int array (arr[i] = arr[least])
+
+        // arr[least] = tmp
+        47: aload_0                 // load local variable 0 (arr)
+        48: iload_2                 // load local variable 2 (least)
+        49: iload_3                 // load local variable 3 (j instead of tmp, because j is not used anymore)
+        50: iastore                 // store into int array (arr[least] = tmp)
+        
+        // i++
+        51: iinc          1, 1      // i++
+        54: goto          2
+
+        57: return                  // return
+      LineNumberTable:
+        line 21: 0
+        line 22: 8
+        line 23: 10
+        line 24: 20
+        line 25: 29
+        line 23: 31
+        line 26: 37
+        line 21: 51
+        line 28: 57
+      StackMapTable: number_of_entries = 5
+        frame_type = 252 /* append */
+          offset_delta = 2
+          locals = [ int ]
+        frame_type = 253 /* append */
+          offset_delta = 11
+          locals = [ int, int ]
+        frame_type = 16 /* same */
+        frame_type = 250 /* chop */
+          offset_delta = 5
+        frame_type = 249 /* chop */
+          offset_delta = 19
