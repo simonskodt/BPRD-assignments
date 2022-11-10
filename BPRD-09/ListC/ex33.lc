@@ -1,0 +1,59 @@
+// ex33.lc -- a listC source program 
+
+// Various list-manipulating functions in list-C
+
+void main(int n) {
+  dynamic xs;
+  xs = makelist(n);
+  printlist(xs);
+  printlist(reverse(xs));
+  print sumlist(xs);
+  print sumlist(append(xs,xs));
+  println;
+}
+
+dynamic makelist(int n) {
+  dynamic res;
+  res = nil;
+  while (n>0) {
+    res = cons(n, res);
+    n = n - 1;
+  }
+  return res;
+}
+
+int sumlist(dynamic xs) {
+  int res;
+  res = 0;
+  while (xs) {
+    res = res + car(xs);
+    xs = cdr(xs);
+  }
+  return res;
+}
+
+dynamic append(dynamic xs, dynamic ys) {
+  if (xs) 
+    return cons(car(xs), append(cdr(xs), ys));
+  else
+    return ys;
+}
+
+dynamic reverse(dynamic xs) {
+  dynamic res;
+  res = nil;
+  while (xs) {
+    res = cons(car(xs), res);
+    xs = cdr(xs);
+  }
+  return res;
+}
+
+void printlist(dynamic xs) {
+  while (xs) {
+    print car(xs);
+    xs = cdr(xs);
+  }
+  println;
+}
+

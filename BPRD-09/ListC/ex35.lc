@@ -1,0 +1,30 @@
+// ex35.lc -- a listC source program 
+// The v cons cell as shared between both car and cdr of w, 
+// so an update to one should be visible from the other.
+// We check that this holds also after provoking a garbage 
+// collection, because a faulty (copying) collector may 
+// unshare the car and cdr parts of w.
+
+// Should print: 33 33 and 44 44 
+
+void main(int n) {
+  dynamic v;
+  dynamic w;
+  v = cons(11, 22);
+  w = cons(v, v);
+  setcar(v, 33);
+  print car(car(w));
+  print car(cdr(w));
+  makegarbage(400);
+  setcar(v, 44);
+  print car(car(w));
+  print car(cdr(w));
+}
+
+void makegarbage(int n) {
+  dynamic xs;
+  while (n>0) {
+    xs = cons(n, 22);
+    n = n - 1;
+  }
+}

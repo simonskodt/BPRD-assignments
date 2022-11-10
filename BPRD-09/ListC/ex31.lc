@@ -1,0 +1,19 @@
+// ex31.lc -- a listC source program 
+// Allocates many cons cells but they do not become garbage
+
+void main(int n) {
+  dynamic xs;
+  xs = nil;
+  while (n>0) {
+    xs = cons(n,xs);
+    n = n - 1;
+  }
+  printlist(xs);
+}
+
+void printlist(dynamic xs) {
+  while (xs) {
+    print car(xs);
+    xs = cdr(xs);
+  }
+}

@@ -1,0 +1,25 @@
+// exGC01.lc -- a ListC source program.
+// We force a situation with a dangling pointer. We only make use of micro-C constructs.
+
+void main() {
+  int *ip;
+  
+  ip = f(); // Now, ip is a dangling pointer.
+  print *ip;
+
+  g();
+  print *ip; // Now, content of ip has been updated to content of i in g. 
+}
+
+int f() {
+  int i;  
+  i = 42;
+
+  return &i;
+}
+
+void g() {
+  int i;
+
+  i = 9999;
+}

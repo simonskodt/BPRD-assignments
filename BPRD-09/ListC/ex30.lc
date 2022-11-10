@@ -1,0 +1,11 @@
+// ex30.lc -- a listC source program 
+// Allocates many cons cells, which immediately die and can be collected
+
+void main(int n) {
+  dynamic xs;
+  while (n>0) {
+    xs = cons(n, 22);
+    print car(xs);
+    n = n - 1;
+  }
+}

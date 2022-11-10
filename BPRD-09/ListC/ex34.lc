@@ -1,0 +1,9 @@
+// ex34.lc -- a listC source program 
+// Allocates a cons cell and accesses its components
+
+void main(int n) {
+  dynamic c;
+  c = cons(11, 15+18);
+  print car(c);
+  print cdr(c);
+}
