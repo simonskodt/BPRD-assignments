@@ -101,7 +101,7 @@ class SentinelLockQueue implements Queue {
       return -999;
     Node first = head;
     head = first.next;
-    first = null;
+    first.next = null;
     return head.item;
   }
 }
