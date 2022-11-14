@@ -1,0 +1,70 @@
+# Assignment 09
+
+## Exercise 10.1
+
+### Part i
+
+ADD:
+We untag the two top elements of the stack, and then we add these two together. We tag them, and then we assign them to the stackpointer minus one and then we decrement the stackpointer by one.
+
+CSTI i:
+We tag the next program counter (which is the int constant), and assign it to stackpointer + 1. After this we increment the stackpointer.
+
+NIL:
+We assign 0 to the stackpointer + 1, and increment the stackpointer by one. NIL does not influence program state.
+
+IFZERO:
+First we get the v value from the stackpointer - 1. Then we evaluate whether v is true or false (any non-zero value is true). If it evaluates true, then we assign pc to pc, if not true, then we assign pc to pc+1.
+
+CONS:
+Allocates a word pointer of size 2. It takes the two top elements from the stack, inserts them into this word. Then it puts this word as the stackpointer-1 element and decrements the stackpointer.
+
+CAR:
+Assign a word pointer to current stackpointer. If pointer equals zero, return minus 1. Otherwise return p[1] which is the first word of the block.
+
+SETCAR:
+Assign word `v` to stackpointer-1. Assign a word pointer to current stackpointer. Assign p[1] to `v`.
+
+### Part ii
+
+`#define Length(hdr) (((hdr)>>2)&0x003FFFFFFFFFFFFF)`
+00tt tttt ttnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nngg
+->
+0000 tttt tttt nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn
+&
+0000 0000 0011 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111
+
+`#define Color(hdr) ((hdr)&3)`
+00tt tttt ttnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nngg
+&
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011
+
+This gives us the two least significant bits, which are used to represent the color in GC.
+
+`#define Paint(hdr, color) (((hdr)&(~3))|(color))`
+00tt tttt ttnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nnnn nngg
+&
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+=
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+|
+color
+
+This allows us to delete the current color of the header, and apply (or "paint") our own color.
+
+### Part iii
+
+`allocate` is only called in the `CONS` instruction
+
+```c
+    case CONS: {
+      word* p = allocate(CONSTAG, 2, s, sp);
+      p[1] = (word)s[sp - 1];
+      p[2] = (word)s[sp];
+      s[sp - 1] = (word)p;
+      sp--;
+    } break;
+```
+
+### Part iv
+`collect` is called in the `allocate` function if there is no free space.
