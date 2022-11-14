@@ -470,15 +470,55 @@ void initheap() {
   heap[1] = (word)0;
   freelist = &heap[0];
 }
+void mark(word* p) {
+  if (inHeap(p)) {
+    p[0] = mkheader(Tag(p[0]), Length(p[0]), White);
+    int i;
+    for (i = 1; i <= Length(p[0]); i++)
+      mark((word*)p[i]);
+  }
+}
 
 void markPhase(word s[], word sp) {
-  printf("marking ...\n");
-  // TODO: Actually mark something
+  for (int i = 0; i <= sp; i++) {
+    if (inHeap((word*)s[i])) {
+      mark((word*)s[i]);
+    }
+  }
 }
 
 void sweepPhase() {
-  printf("sweeping ...\n");
-  // TODO: Actually sweep
+  word* heapPtr = heap;
+  word* prev = 0;
+  while (heapPtr < afterHeap) {
+    if (Color(heapPtr[0]) == White) {
+      int l = Length(heapPtr[0]);
+      while(1){
+        //check for adjacent free blocks
+        if(heapPtr[l+1] == White){
+          l += Length(heapPtr[l+1]);
+        }
+        else{
+          break;
+        }
+      }
+      heapPtr[0] = mkheader(0, l, Blue);
+      if (prev == 0)
+        freelist = heapPtr;
+      else
+        prev[1] = (word)heapPtr;
+      prev = heapPtr;
+    }
+    if (Color(heapPtr[0]) == Black) {
+      heapPtr[0] = mkheader(Tag(heapPtr[0]), Length(heapPtr[0]), White);
+      prev = heapPtr;
+    }
+    heapPtr += Length(heapPtr[0]) + 1;
+  }
+  if (prev == 0)
+    freelist = 0;
+  else
+    prev[1] = (word)0;
 }
 
 void collect(word s[], word sp) {
