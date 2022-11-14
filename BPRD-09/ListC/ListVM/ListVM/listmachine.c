@@ -678,7 +678,7 @@ void sweepPhase()
     {
       prev = p;
     }
-
+    
     p = p + Length(p[0]) + 1; // at last in while loop, point p to next block in heap.
   }
 
