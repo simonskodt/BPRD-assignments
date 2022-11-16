@@ -11,10 +11,10 @@ Instructions | Effect |
 `ADD` | Untag the two top elements of the stack, and then add these two together. Tag them, and assign them to the stackpointer minus one and decrement the stackpointer by one. |
 `CSTI i` | Tag the next program counter (which is the int constant), and assign it to stackpointer + 1. Afterward, increment the stackpointer. |
 `NIL` | Assign 0 to the stackpointer + 1, and increment the stackpointer by one. `NIL` does not influence program state.
-`IFZERO` | First, get the `v` value from the stackpointer - 1. Then evaluate whether `v` is true or false (any non-zero value is true). If it evaluates true, assign pc to pc, if not true, then assign pc to pc+1.
+`IFZERO` | First, get the `v` value from the stackpointer - 1. Then evaluate whether `v` is true or false (any non-zero value is true). If it evaluates true, assign `pc` to `pc`, if not true, then assign `pc` to `pc+1`.
 `CONS` | Allocates a word pointer of size 2. It takes the two top elements from the stack, inserts them into this word. Then it puts this word as the stackpointer-1 element and decrements the stackpointer.
 `CAR` | Assign a word pointer to current stackpointer. If pointer equals zero, return minus 1. Otherwise return `p[1]` which is the first word of the block.
-`SETCAR` | Assign word `v` to stackpointer-1. Assign a word pointer to current stackpointer. Assign p[1] to `v`.
+`SETCAR` | Assign word `v` to stackpointer-1. Assign a word pointer to current stackpointer. Assign `p[1]` to `v`.
 
 ### Part (ii)
 
