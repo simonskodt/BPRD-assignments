@@ -4,10 +4,10 @@
 
 ### Part i
 ```fsharp
-> let rec lenc list c =
--     match list with 
--     | [] -> c 0
--     | _::xs -> lenc xs (fun r -> c(1+r));;
+let rec lenc list c =
+    match list with 
+    | [] -> c 0
+    | _::xs -> lenc xs (fun r -> c(1+r));;
 val lenc: list: 'a list -> c: (int -> 'b) -> 'b
 
 > (printf "The answer is ’%d’\n") (lenc [2; 5; 7] id);;
@@ -21,6 +21,18 @@ val it: unit = ()
 > (printf "The answer is ’%d’\n") (lenc [2; 5; 7] (fun v -> 2*v));;
 The answer is ’6’
 val it: unit = ()
+```
+
+### Part iii
+
+```fsharp
+let rec leni list acc =
+    match list with 
+    | []    -> acc
+    | _::xs -> leni xs (acc+1);;
+
+> (printf "The answer is ’%d’\n") (leni [2; 5; 7] 0);;
+The answer is ’6’
 ```
 
 ## Exercise 11.2
