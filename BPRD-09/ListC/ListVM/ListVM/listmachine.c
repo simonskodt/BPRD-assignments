@@ -682,7 +682,6 @@ void sweepPhase()
       prev = p;
     }
 
-    // If block is black, paint blue
     if (Color(p[0]) == White)
     {
       p[0] = Paint(p[0], Blue);
@@ -701,6 +700,8 @@ void sweepPhase()
         }
       }
 
+      // Make blue block point to freelist location, and freelist point at p.
+      // Essentially puts p in front of the existing freelist.
       p[1] = (word)freelist;
       freelist = p;
 
