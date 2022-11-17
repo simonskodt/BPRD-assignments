@@ -97,6 +97,27 @@ val prodc: xs: int list -> c: (int -> 'a) -> 'a
 
 ## Exercise 11.4
 
+```fsharp
+> prodc_optimized [1; 2; 0; 3] id;;
+val it: int = 0
 
+> prodc_optimized [1; 2; 0; 3] (printf "The answer is '%d'\n");;
+The answer is '0'
+val it: unit = ()
+```
+
+```fsharp
+> let prodi_optimized xs acc =
+-     let rec aux xs acc =
+-         match xs with
+-             | [] -> acc
+-             | x :: _ when x = 0 -> 0
+-             | x :: xs -> aux xs (acc * x)
+-     aux xs acc;;
+val prodi_optimized: xs: int list -> acc: int -> int
+
+> prodi_optimized [1; 2; 0; 3] 0;;
+val it: int = 0
+```
 
 ## Exercise 11.8
