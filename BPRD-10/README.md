@@ -5,10 +5,10 @@
 ### Part i
 
 ```fsharp
-> let rec lenc list c =
--     match list with 
--     | [] -> c 0
--     | _::xs -> lenc xs (fun r -> c(1+r));;
+let rec lenc list c =
+    match list with 
+    | [] -> c 0
+    | _::xs -> lenc xs (fun r -> c(1+r));;
 val lenc: list: 'a list -> c: (int -> 'b) -> 'b
 
 > (printf "The answer is ’%d’\n") (lenc [2; 5; 7] id);;
