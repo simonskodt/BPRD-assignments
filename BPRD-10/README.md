@@ -5,23 +5,25 @@
 ### Part i
 
 ```fsharp
-let rec lenc list c =
-    match list with 
-    | [] -> c 0
-    | _::xs -> lenc xs (fun r -> c(1+r));;
+> let rec lenc list c =
+-     match list with 
+-     | []    -> c 0
+-     | _::xs -> lenc xs (fun r -> c(1+r));;
 val lenc: list: 'a list -> c: (int -> 'b) -> 'b
 
-> (printf "The answer is ’%d’\n") (lenc [2; 5; 7] id);;
-The answer is ’3’
+> lenc [2; 5; 7] id;;
+val it: int = 3
+
+> lenc [2; 5; 7] (printf "The answer is '%d'\n")- ;;
+The answer is '3'
 val it: unit = ()
 ```
 
 ### Part ii
 
 ```fsharp
-> (printf "The answer is ’%d’\n") (lenc [2; 5; 7] (fun v -> 2*v));;
-The answer is ’6’
-val it: unit = ()
+> lenc [2; 5; 7] (fun v -> 2*v);;
+6
 ```
 
 ### Part iii
@@ -35,9 +37,8 @@ val it: unit = ()
 -     aux list acc;;
 val leni: list: 'a list -> acc: int -> int
 
-> (printf "The answer is ’%d’\n") (leni [2; 5; 7] 0);;
-The answer is ’3’
-val it: unit = ()
+> leni [2; 5; 7] 0;;
+3
 ```
 
 The relation between lenc and leni, is that they both use the heap instead of the stack.
@@ -53,18 +54,17 @@ The relation between lenc and leni, is that they both use the heap instead of th
 -     | x :: xs -> revc xs (fun r -> c(r @ [x]));;
 val revc: xs: 'a list -> c: ('a list -> 'a list) -> 'a list
 
-> (printf "The answer is ’%A’\n") (revc [1; 2; 3] id);;;;
-The answer is ’[3; 2; 1]’
-val it: unit = ()
+> revc [1; 2; 3] id;;
+[3; 2; 1]
 ```
 
 ### Part ii
 
 ```fsharp
-> (printf "The answer is ’%A’\n") (revc [1; 2; 3] (fun v -> v @ v));;;;
-The answer is ’[3; 2; 1; 3; 2; 1]’
-val it: unit = ()
+> revc [1; 2; 3] (fun v -> v @ v);;
+[3; 2; 1; 3; 2; 1]
 ```
+
 If you call revc with the function `(fun v -> v @ v)`, then it reverses the list twice. So, it duplicates the reversed list.
 
 ### Part iii
@@ -78,9 +78,8 @@ If you call revc with the function `(fun v -> v @ v)`, then it reverses the list
 -     aux xs acc;;
 val revi: xs: 'a list -> acc: 'a list -> 'a list
 
-> (printf "The answer is ’%A’\n") (revi [1; 2; 3] []);;;;
-The answer is ’[3; 2; 1]’
-val it: unit = ()
+> revi [1; 2; 3] [];;
+[3; 2; 1]
 ```
 
 ## Exercise 11.3
@@ -92,9 +91,8 @@ val it: unit = ()
 -     | x :: xs -> prodc xs (fun r -> c(r * x));;
 val prodc: xs: int list -> c: (int -> 'a) -> 'a
 
-> (printf "The answer is ’%d’\n") (prodc [1; 2; 3] id);;
-The answer is ’6’
-val it: unit = ()
+> prodc [1; 2; 3] id;;
+6
 ```
 
 ## Exercise 11.4
