@@ -43,5 +43,64 @@ Macro | Result |
 `collect` is called in the `allocate` function if there is no free space.
 
 ## Exercise 10.2
+Can be seen in file `listmachine.c`
+
+Also copied here, because `listmachine.c` is modified in next exercise.
+
+```c
+void mark(word *p)
+{
+  if (inHeap(p))
+  {
+    p[0] = Paint(p[0], White);
+    int i;
+    for (i = 1; i <= Length(p[0]); i++)
+      mark((word *)p[i]);
+  }
+}
+
+void markPhase(word s[], word sp)
+{
+  for (int i = 0; i <= sp; i++)
+  {
+    if (inHeap((word *)s[i]))
+    {
+      mark((word *)s[i]);
+    }
+  }
+}
+
+void sweepPhase()
+{
+  word *p = heap;
+  word *prev = 0;
+
+  while (p < afterHeap)
+  {
+
+    // If block is black, paint white
+    if (Color(p[0]) == Black)
+    {
+      p[0] = Paint(p[0], White);
+      prev = p;
+    }
+
+    // If block is black, paint blue
+    if (Color(p[0]) == White)
+    {
+      p[0] = Paint(p[0], Blue);
+
+      p[1] = (word) freelist;
+      freelist = p;
+
+      prev = p;
+    }
+
+    p = p + Length(p[0]) + 1; // at last in while loop, point p to next block in heap.
+  }
+}
+```
 
 ## Exercise 10.3
+
+Can be seen in file `listmachine.c`.

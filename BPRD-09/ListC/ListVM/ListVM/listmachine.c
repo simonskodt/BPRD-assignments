@@ -153,7 +153,7 @@ word *readfile(char *filename);
 
 // Heap size in words
 
-#define HEAPSIZE 1000
+#define HEAPSIZE 10000
 
 word *heap;
 word *afterHeap;
@@ -622,11 +622,34 @@ void initheap()
   freelist = &heap[0];
 }
 
+void printHeap()
+{
+  word *heapPtr = heap;
+  while (heapPtr < afterHeap)
+  {
+    printf("Color at heap block: %lld\n", Color(heapPtr[0]));
+    word *nextBlock = heapPtr + Length(heapPtr[0]) + 1;
+    heapPtr = nextBlock;
+  }
+}
+
+void printFreeList()
+{
+  word *freePtr = freelist;
+  while (freePtr != 0)
+  {
+    int length = Length(freePtr[0]);
+
+    printf("Color of freelist block %lld\n", Color(freePtr[0]));
+    freePtr = (word *)freePtr[1];
+  }
+}
+
 void mark(word *p)
 {
   if (inHeap(p))
   {
-    Paint(p[0], White);
+    p[0] = Paint(p[0], White);
     int i;
     for (i = 1; i <= Length(p[0]); i++)
       mark((word *)p[i]);
@@ -655,45 +678,53 @@ void sweepPhase()
     // If block is black, paint white
     if (Color(p[0]) == Black)
     {
-      Paint(p[0], White);
+      p[0] = Paint(p[0], White);
+      prev = p;
     }
 
     // If block is black, paint blue
     if (Color(p[0]) == White)
     {
-      Paint(p[0], Blue);
+      p[0] = Paint(p[0], Blue);
 
-      if (prev == 0) // If prev is 0 (first iteration), freelist is equal to location in heap??
+      int l = Length(p[0]);
+      while (1)
       {
-        freelist = p;
+        // check for adjacent free blocks
+        if (p[l + 1] == White)
+        {
+          l += Length(p[l + 1]);
+        }
+        else
+        {
+          break;
+        }
       }
-      else // Else (not first iteration), prev[1] (prev + 1) is equal to current location in heap??
-      {
-        prev[1] = (word)p;
-      }
-    }
 
-    // Ignore the blue, and move prev pointer to p
-    if (Color(p[0]) != Blue)
-    {
+      p[1] = (word)freelist;
+      freelist = p;
+
       prev = p;
     }
-    
+
     p = p + Length(p[0]) + 1; // at last in while loop, point p to next block in heap.
   }
-
-  // ??
-  if (prev == 0)
-    freelist = 0;
-  else
-    prev[1] = (word)0;
 }
 
 void collect(word s[], word sp)
 {
   markPhase(s, sp);
+  // printf("\nfirst heap\n");
+  // printHeap();
+  // printf("\nfirst freelist\n");
+  // printFreeList();
   heapStatistics();
+
   sweepPhase();
+  // printf("\nsecond\n");
+  // printHeap();
+  // printf("\nsecond freelist\n");
+  // printFreeList();
   heapStatistics();
 }
 
