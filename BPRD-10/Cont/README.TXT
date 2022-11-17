@@ -6,18 +6,18 @@ Archive cont.zip contains the files used below.
 A. Loading two continuation-based interpreters for a functional
    language with exceptions:
 
-   fsharpi Contfun.fs
+   dotnet fsi Contfun.fs
 
    open Contfun;;
    eval1 ex1 [];; 
-   eval1 ex2 [("n", Int 10)];
+   eval1 ex2 [("n", Int 10)];;
    #q;;
 
 
 B. Loading two continuation-based interpreters for an imperative
    language with exceptions:
 
-   fsharpi Contimp.fs
+   dotnet fsi Contimp.fs
 
    open Contimp;;
    run1 ex1;;
@@ -28,7 +28,7 @@ B. Loading two continuation-based interpreters for an imperative
 C. Loading a continuation-based interpreter for micro-Icon, a language
    in which an expression can have multiple results:
 
-   fsharpi Icon.fs
+   dotnet fsi Icon.fs
 
    open Icon;;
    run ex1;;
