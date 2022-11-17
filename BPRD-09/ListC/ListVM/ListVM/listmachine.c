@@ -153,7 +153,7 @@ word *readfile(char *filename);
 
 // Heap size in words
 
-#define HEAPSIZE 10000
+#define HEAPSIZE 1000
 
 word *heap;
 word *afterHeap;
