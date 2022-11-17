@@ -684,7 +684,6 @@ void sweepPhase()
 
     if (Color(p[0]) == White)
     {
-      p[0] = Paint(p[0], Blue);
 
       int l = Length(p[0]);
       while (1)
@@ -699,6 +698,8 @@ void sweepPhase()
           break;
         }
       }
+
+      p[0] = mkheader(BlockTag(p[0]), l, Blue);
 
       // Make blue block point to freelist location, and freelist point at p.
       // Essentially puts p in front of the existing freelist.
