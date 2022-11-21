@@ -13,11 +13,9 @@ lenc [2; 5; 7] (fun v -> 2*v)
 
 
 // 11_1 part iii
-let leni list acc =
-    let rec aux list acc =
-        match list with
-        | [] -> acc
-        | _::xs -> aux xs (acc + 1)
-    aux list acc
+let rec leni list acc =
+    match list with
+    | []    -> acc
+    | _::xs -> leni xs (acc + 1)
 
 leni [2; 5; 7] 0

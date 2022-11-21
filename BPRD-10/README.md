@@ -116,8 +116,11 @@ val it: unit = ()
 -     aux xs acc;;
 val prodi_optimized: xs: int list -> acc: int -> int
 
-> prodi_optimized [1; 2; 0; 3] 0;;
+> prodi_optimized [1; 2; 0; 3] 1;;
 val it: int = 0
+
+> prodi_optimized [2; 4] 1;;
+val it: int = 8
 ```
 
 ## Exercise 11.8
