@@ -125,6 +125,8 @@ val it: int = 8
 
 ## Exercise 11.8
 
+All files can be found in `Icon.fs`.
+
 ### Part i
 
 ```fsharp
@@ -134,4 +136,36 @@ let ex11_8_ia = Every(Write(Prim("+", CstI 1, (Prim("*", CstI 2, FromTo(1, 4))))
 ```fsharp
 > run ex11_8_ia;;
 3 5 7 9 val it: value = Int 0
+```
+
+### Part ii
+
+```fsharp
+let ex11_8_iia = Write(Prim("<", CstI 50, (Prim("*", CstI 7, FromTo(1, 10)))));
+
+> run ex11_8_iia;; 
+56 val it: value = Int 56
+```
+
+### Part iii
+
+```fsharp
+let ex11_8_iiia = Every(Write(Prim1("sqr", FromTo(3, 6))));;
+
+> run ex11_8_iiia;;
+9 16 25 36 val it: value = Int 0
+
+let ex11_8_iiib = Every(Write(Prim1("even", FromTo(1, 7))));;
+> run ex11_8_iiib;;
+2 4 6 val it: value = Int 0
+
+```
+
+### Part iv
+
+```fsharp
+let ex11_8_iva = Every(Write(Prim1("multiples", CstI 3)));;
+
+> run ex11_8_iva;;
+... 33000 33003 33006 33009 33012 33015 33018 33021 33024 33027 33030 ...
 ```

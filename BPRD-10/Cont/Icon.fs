@@ -93,10 +93,10 @@ let rec eval (e : expr) (cont : cont) (econt : econt) =
       eval e (fun v -> fun econt1 ->
         match (ope, v) with
         | ("sqr", Int i) ->
-          cont (Int(i*i)) econt
+          cont (Int(i*i)) econt1
         | ("even", Int i) ->
           if i % 2 = 0 then
-            cont (Int i) econt
+            cont (Int i) econt1
           else
             econt1 ()
         | ("multiples", Int i) ->
