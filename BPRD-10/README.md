@@ -121,3 +121,14 @@ val it: int = 0
 ```
 
 ## Exercise 11.8
+
+### Part i
+
+```fsharp
+let ex11_8_ia = Every(Write(Prim("+", CstI 1, (Prim("*", CstI 2, FromTo(1, 4))))));
+```
+
+```fsharp
+> run ex11_8_ia;;
+3 5 7 9 val it: value = Int 0
+```

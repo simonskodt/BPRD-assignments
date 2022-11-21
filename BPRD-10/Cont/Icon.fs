@@ -137,3 +137,5 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 
 // every(write(4 < (1 to 10)))
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
+
+let ex11_8_ia = Every(Write(Prim("+", CstI 1, (Prim("*", CstI 2, FromTo(1, 4))))));
