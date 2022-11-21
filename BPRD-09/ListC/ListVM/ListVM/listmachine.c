@@ -647,9 +647,10 @@ void printFreeList()
 
 void mark(word *p)
 {
-  if (inHeap(p))
+  // Reachable form stack, paint black.
+  if (inHeap((word *)p))
   {
-    p[0] = Paint(p[0], White);
+    p[0] = Paint(p[0], Black);
     int i;
     for (i = 1; i <= Length(p[0]); i++)
       mark((word *)p[i]);
@@ -675,13 +676,7 @@ void sweepPhase()
   while (p < afterHeap)
   {
 
-    // If block is black, paint white
-    if (Color(p[0]) == Black)
-    {
-      p[0] = Paint(p[0], White);
-      prev = p;
-    }
-
+    // If block is white, not reachable from stack. May be collected.
     if (Color(p[0]) == White)
     {
 
@@ -706,6 +701,13 @@ void sweepPhase()
       p[1] = (word)freelist;
       freelist = p;
 
+      prev = p;
+    }
+
+    // If block is black, paint white
+    if (Color(p[0]) == Black)
+    {
+      p[0] = Paint(p[0], White);
       prev = p;
     }
 
