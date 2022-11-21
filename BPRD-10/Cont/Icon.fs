@@ -156,11 +156,6 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
 
 (* Exercise 11.8, micro-Icon *)
-
-// dotnet fsi Icon.fs
-// open Icon;;
-// run ex1;;
-
 // (i)
 let ex11_8_ia = Every(Write(Prim("+", CstI 1, (Prim("*", CstI 2, FromTo(1, 4))))));
 
@@ -174,5 +169,6 @@ let ex11_8_iiia = Every(Write(Prim1("sqr", FromTo(3, 6))));;
 
 let ex11_8_iiib = Every(Write(Prim1("even", FromTo(1, 7))));;
 
-// (iiii)
-let ex11_8_iiiia = Every(Write(Prim1("multiples", CstI 3)));;
+// (iv)
+let ex11_8_iva = Every(Write(Prim1("multiples", CstI 3)));;
+let ex11_8_ivb = Every(Write(Prim1("multiples", FromTo(3, 5))));;
