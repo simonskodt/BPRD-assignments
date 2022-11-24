@@ -29,12 +29,10 @@ val it: unit = ()
 ### Part iii
 
 ```fsharp
-> let leni list acc =
--     let rec aux list acc =
--         match list with
--         | [] -> acc
--         | _::xs -> aux xs (acc + 1)
--     aux list acc;;
+> let rec leni list acc =
+-    match list with
+-    | []    -> acc
+-    | _::xs -> leni xs (acc + 1)
 val leni: list: 'a list -> acc: int -> int
 
 > leni [2; 5; 7] 0;;
@@ -70,12 +68,10 @@ If you call revc with the function `(fun v -> v @ v)`, then it reverses the list
 ### Part iii
 
 ```fsharp
-> let revi xs acc =
--     let rec aux xs acc =
--         match xs with
--         | [] -> acc
--         | x :: xs -> aux xs (x :: acc)
--     aux xs acc;;
+> let rec revi xs acc =
+-   match xs with
+-   | []      -> acc
+-   | x :: xs -> revi xs (x :: acc)
 val revi: xs: 'a list -> acc: 'a list -> 'a list
 
 > revi [1; 2; 3] [];;
@@ -98,6 +94,14 @@ val prodc: xs: int list -> c: (int -> 'a) -> 'a
 ## Exercise 11.4
 
 ```fsharp
+let rec prodc_optimized xs c =
+    match xs with
+    | []                -> c 1
+    | x :: _ when x = 0 -> c 0
+    | x :: xs           -> prodc xs (fun r -> c(r * x))
+```
+
+```fsharp
 > prodc_optimized [1; 2; 0; 3] id;;
 val it: int = 0
 
@@ -107,13 +111,11 @@ val it: unit = ()
 ```
 
 ```fsharp
-> let prodi_optimized xs acc =
--     let rec aux xs acc =
--         match xs with
--             | [] -> acc
--             | x :: _ when x = 0 -> 0
--             | x :: xs -> aux xs (acc * x)
--     aux xs acc;;
+> let rec prodi_optimized xs acc =
+-   match xs with
+-   | []                -> acc
+-   | x :: _ when x = 0 -> 0
+-   | x :: xs           -> prodi_optimized aux xs (acc * x)
 val prodi_optimized: xs: int list -> acc: int -> int
 
 > prodi_optimized [1; 2; 0; 3] 1;;
