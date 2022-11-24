@@ -24,7 +24,7 @@ B. To compile and use the micro-C compiler
 
    fslex --unicode CLex.fsl
    fsyacc --module CPar CPar.fsy
-   fsharpi -r FsLexYacc.Runtime.dll Absyn.fs CPar.fs CLex.fs Parse.fs Machine.fs Comp.fs ParseAndComp.fs   
+   dotnet fsi -r FsLexYacc.Runtime.dll Absyn.fs CPar.fs CLex.fs Parse.fs Machine.fs Comp.fs ParseAndComp.fs   
 
    open ParseAndComp;;
    compileToFile (fromFile "ex11.c") "ex11.out";;

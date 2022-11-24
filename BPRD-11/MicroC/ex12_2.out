@@ -1,0 +1,7 @@
+24 19 0 5 25 0 1 17 14 0 1 22 21 0 21 -1
+
+[LDARGS; CALL (0, "L1"); STOP; 
+
+Label "L1"; CSTI 1; IFZERO "L2"; 
+CSTI 1; PRINTI; RET 0; 
+Label "L2"; RET -1]
