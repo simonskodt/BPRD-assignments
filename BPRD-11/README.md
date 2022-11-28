@@ -57,6 +57,196 @@ Run in terminal with expected output.
 1 
 ```
 
+Improved functionality.
+
+```fsharp
+    | (a, CSTI b :: LT :: C1)                -> if a < b then addCST 1 C1 else addCST 0 C1  // a < b
+    | (a, CSTI b :: SWAP :: LT :: NOT :: C1) -> if a <= b then addCST 1 C1 else addCST 0 C1 // a <= b
+    | (a, CSTI b :: EQ :: NOT :: C1)         -> if a <> b then addCST 1 C1 else addCST 0 C1 // a != b
+    | (a, CSTI b :: SWAP :: LT :: C1)        -> if a > b then addCST 1 C1 else addCST 0 C1  // a > b
+    | (a, CSTI b :: LT :: NOT :: C1)         -> if a >= b then addCST 1 C1 else addCST 0 C1 // a >= b
+```
+
+A simple function to test `<=`.
+
+```fsharp
+void main()
+{
+    if (12 <= 22)
+    {
+        print 33;
+    }
+}
+```
+
+Generated symbolic bytecode instructions.
+
+```fsharp
+[LDARGS; CALL (0, "L1"); STOP; 
+
+Label "L1"; CSTI 33; PRINTI; RET 0;
+Label "L2"; RET -1]
+```
+
+Output from terminal.
+
+```fsharp
+java Machine ex12_2_b.out 
+33 
+```
+
 ## Exercise 12.3
 
+Extended match case in `cExpr`.
+
+```fsharp
+    | Cond(e1, e2, e3) ->
+        let (jumpend, C1) = makeJump C
+        let (labelse, C2) = addLabel (cExpr e3 varEnv funEnv C1)
+        cExpr e1 varEnv funEnv (IFZERO labelse :: cExpr e2 varEnv funEnv (addJump jumpend C2))
+```
+
+Two generated files `ex12_3_a` and `ex12_3_b` to test `true ? 1111 : 2222` and `false ? 1111 : 2222`.
+
+Generated symbolic bytecode instructions from these files.
+
+`ex12_3_a`: 
+
+```c
+[LDARGS; CALL (0, "L1"); STOP; 
+
+Label "L1"; CSTI 1111; RET 0; 
+Label "L2"; CSTI 2222; RET 0]
+```
+
+`ex12_3_b`:
+
+```c
+[LDARGS; CALL (0, "L1"); STOP; 
+
+Label "L1"; 
+Label "L2"; CSTI 2222; RET 0]
+```
+
+Here, it is shown that the compiler removes the bytecode instructions from the L1 label in the `ex12_3_b`. This is due to the optimization.
+
 ## Exercise 12.4
+
+Extended in `CPar.fsy`.
+
+```fsharp
+  | Expr SEQAND Expr                    { Cond($1, $3, CstI 0) }
+  | Expr SEQOR  Expr                    { Cond($1, CstI 1, $3) }
+```
+
+File `ex13_4_a.c` to test `&&`:
+
+```fsharp
+void main()
+{
+    if (0 && 0) {
+        print 0000;
+    }
+
+    if (1 && 0) {
+        print 1111;
+    }
+
+    if (1 && 1) {
+        print 2222;
+    }
+}
+```
+
+Generated symbolic bytecode **before** new implementation of sequential logical operators.
+
+```c
+[LDARGS; CALL (0, "L1"); STOP; 
+
+Label "L1"; 
+Label "L3"; CSTI 2222; PRINTI; RET 0; 
+Label "L2"; RET -1]
+```
+
+Generated symbolic bytecode **after** new implementation of sequential logical operators.
+
+```c
+[LDARGS; CALL (0, "L1"); STOP; 
+
+Label "L1"; 
+Label "L10"; CSTI 0; 
+Label "L9"; IFZERO "L8"; CSTI 0; PRINTI; INCSP -1; 
+Label "L8"; CSTI 0; GOTO "L6";
+Label "L7"; CSTI 0; 
+Label "L6"; IFZERO "L5"; CSTI 1111; PRINTI; INCSP -1;
+Label "L5"; CSTI 1; GOTO "L3"; 
+Label "L4"; CSTI 0; 
+Label "L3"; IFZERO "L2"; CSTI 2222; PRINTI; RET 0; 
+Label "L2"; RET -1]
+```
+
+
+Output in terminal:
+
+```cmd
+java Machine .\ex12_4_a.out
+2222
+```
+
+File `ex13_4_b.c` to test `||`:
+
+```fsharp
+void main()
+{
+    if (0 || 0) {
+        print 0000;
+    }
+
+    if (0 || 1) {
+        print 1111;
+    }
+
+    if (1 || 1) {
+        print 2222;
+    }
+}
+```
+
+Generated symbolic bytecode **before** new implementation of sequential logical operators.
+
+```c
+[LDARGS; CALL (0, "L1"); STOP; 
+
+Label "L1"; GOTO "L4"; 
+Label "L5"; CSTI 0; PRINTI; INCSP -1; 
+Label "L4"; CSTI 1111; PRINTI; INCSP -1; 
+Label "L3"; CSTI 2222; PRINTI; RET 0; 
+Label "L2"; RET -1]
+```
+
+Generated symbolic bytecode **after** new implementation of sequential logical operators.
+
+```c
+  [LDARGS; CALL (0, "L1"); STOP; 
+  
+  Label "L1"; 
+  Label "L9"; CSTI 0; 
+  Label "L8"; IFZERO "L7"; CSTI 0; PRINTI; INCSP -1; 
+  Label "L7"; CSTI 1; 
+  Label "L6"; IFZERO "L5"; CSTI 1111; PRINTI; INCSP -1; 
+  Label "L5"; CSTI 1; GOTO "L3";
+  Label "L4"; CSTI 1; 
+  Label "L3"; IFZERO "L2"; CSTI 2222; PRINTI; RET 0;
+  Label "L2"; RET -1]
+```
+
+
+
+Output in terminal:
+
+```cmd
+java Machine .\ex12_4_b.out
+1111 2222
+```
+
+While the existing compilation is complicated, the code quality is better than the simple approach. Seen in the two above examples, the new symbolic bytecode instruction include more than double the instructions as seen previously.

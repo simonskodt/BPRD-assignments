@@ -72,6 +72,8 @@ rule Token = parse
   | '}'             { RBRACE }
   | '['             { LBRACK }
   | ']'             { RBRACK }
+  | '?'             { QUE }
+  | ':'             { COL }
   | ';'             { SEMI }
   | ','             { COMMA }
   | "//"            { EndLineComment lexbuf; Token lexbuf }

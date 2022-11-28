@@ -1,0 +1,5 @@
+24 19 0 5 25 0 1111 21 0 0 2222 21 0
+
+[LDARGS; CALL (0, "L1"); STOP; 
+Label "L1"; CSTI 1111; RET 0; 
+Label "L2"; CSTI 2222; RET 0]

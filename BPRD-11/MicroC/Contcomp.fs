@@ -102,10 +102,12 @@ let rec addCST i C =
     | (_, IFZERO lab :: C1) -> C1
     | (0, IFNZRO lab :: C1) -> C1
     | (_, IFNZRO lab :: C1) -> addGOTO lab C1
-    | (a, CSTI b :: LT :: C1) -> if a < b 
-                                    then CSTI 1 :: C1 
-                                    else CSTI 0 :: C1
-    | _                     -> CSTI i :: C
+    | (a, CSTI b :: LT :: C1)                -> if a < b then addCST 1 C1 else addCST 0 C1  // a < b
+    | (a, CSTI b :: SWAP :: LT :: NOT :: C1) -> if a <= b then addCST 1 C1 else addCST 0 C1 // a <= b
+    | (a, CSTI b :: EQ :: NOT :: C1)         -> if a <> b then addCST 1 C1 else addCST 0 C1 // a != b
+    | (a, CSTI b :: SWAP :: LT :: C1)        -> if a > b then addCST 1 C1 else addCST 0 C1  // a > b
+    | (a, CSTI b :: LT :: NOT :: C1)         -> if a >= b then addCST 1 C1 else addCST 0 C1 // a >= b
+    | _                                      -> CSTI i :: C
 
 (* Exercise 12.1 *)
 let rec addIFZERO lab3 C =
@@ -114,7 +116,7 @@ let rec addIFZERO lab3 C =
   | _ -> IFZERO lab3 :: C 
 
 // open ParseAndContcomp;;
-// contCompileToFile (fromFile "ex12_2.c") "ex12_2.out";;
+// contCompileToFile (fromFile "ex12_4_a.c") "ex12_4_a.out";;
             
 (* ------------------------------------------------------------------- *)
 
@@ -309,6 +311,12 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) (C : instr list) : inst
            (IFNZRO labtrue 
              :: cExpr e2 varEnv funEnv (addJump jumpend C2))
     | Call(f, es) -> callfun f es varEnv funEnv C
+    | Cond(e1, e2, e3) ->
+        let (jumpend, C1) = makeJump C
+        let (labelse, C2) = addLabel (cExpr e3 varEnv funEnv C1)
+        cExpr e1 varEnv funEnv (IFZERO labelse :: cExpr e2 varEnv funEnv (addJump jumpend C2))
+
+
 
 (* Generate code to access variable, dereference pointer or index array: *)
 
