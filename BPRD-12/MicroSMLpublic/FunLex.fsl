@@ -1,0 +1,90 @@
+{
+ (* File Fun/Funlex.fsl 
+    Lexer for a simple functional language (micro-ML) 
+    sestoft@itu.dk * 2010-01-02
+  *)
+
+module FunLex
+
+open FSharp.Text.Lexing
+open FunPar;
+
+let lexemeAsString lexbuf = 
+    LexBuffer<char>.LexemeString lexbuf
+
+(* Start of outermost comment currently being scanned *)
+let commentStart = ref Position.Empty;  
+ 
+let commentDepth = ref 0;  (* Current comment nesting *)
+
+(* Distinguish keywords from identifiers: *)
+
+let keyword s =
+    match s with
+    | "else"      -> ELSE
+    | "begin"     -> BEGIN        
+    | "end"       -> END
+    | "false"     -> CSTBOOL false
+    | "if"        -> IF
+    | "in"        -> IN
+    | "let"       -> LET
+    | "val"       -> VAL
+    | "fun"       -> FUN
+    | "fn"        -> FN
+    | "and"       -> AND
+    | "not"       -> NOT
+    | "then"      -> THEN
+    | "true"      -> CSTBOOL true
+    | "print"     -> PRIM1 "print"
+    | "nil"       -> NIL
+    | "hd"        -> HEAD
+    | "tl"        -> TAIL
+    | "isnil"     -> PRIM1 "isnil"
+    | "try"       -> TRY
+    | "with"      -> WITH
+    | "raise"     -> RAISE
+    | "exception" -> EXN        
+    | _           -> NAME s
+}
+
+rule Token = parse
+  | [' ' '\t' '\r'] { Token lexbuf }
+  | '\n'            { lexbuf.EndPos <- lexbuf.EndPos.NextLine; Token lexbuf }
+  | ['0'-'9']+      { CSTINT (System.Int32.Parse (lexemeAsString lexbuf)) }
+  | ['a'-'z''A'-'Z']['a'-'z''A'-'Z''0'-'9''_''\'']*
+                    { keyword (lexemeAsString lexbuf) }
+  | "(*"            { commentStart := lexbuf.StartPos;
+                      commentDepth := 1; 
+                      SkipComment lexbuf; Token lexbuf }
+  | '='             { EQ }
+  | "<>"            { NE }
+  | '>'             { GT }
+  | '<'             { LT }
+  | ">="            { GE }
+  | "<="            { LE }
+  | "&&"            { SEQAND }
+  | "||"            { SEQOR }
+  | '+'             { PLUS }                     
+  | '-'             { MINUS }                     
+  | '*'             { TIMES }                     
+  | '/'             { DIV }                     
+  | '%'             { MOD }
+  | '('             { LPAR }
+  | ')'             { RPAR }
+  | ';'             { SEMICOLON }
+  | ':'             { COLON }
+  | "::"            { CONS }
+  | "->"            { RARROW }
+  | eof             { EOF }
+  | _               { failwith "Lexer error: illegal symbol" }
+
+and SkipComment = parse
+    "*)"            { commentDepth := !commentDepth - 1;  
+                      if !commentDepth = 0 then ()
+                      else SkipComment lexbuf 
+                    } 
+   | "(*"           { commentDepth := !commentDepth + 1; 
+                      SkipComment lexbuf }
+   | eof            { failwith "Lexer error: unterminated comment" }
+   | _              { SkipComment lexbuf }
+
