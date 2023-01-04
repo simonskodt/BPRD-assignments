@@ -18,6 +18,7 @@ type expr<'a> =
   | Let of valdec<'a> list * expr<'a>
   | Raise of expr<'a> * 'a option
   | TryWith of expr<'a> * exnvar * expr<'a>
+  | Pair of expr<'a> * expr<'a> * 'a option
 and valdec<'a> =
   | Fundecs of (string * string * expr<'a>) list  (* Top level mutual recursive function declarations *)
   | Valdec of string * expr<'a>
@@ -60,6 +61,7 @@ let ppProg fPP p : string =
     | Raise(e,aOpt) -> "raise " + (ppExpr' i e) + (fPP aOpt)
     | TryWith(e1,exn,e2) -> "\n" + (indent (i+2)) + "(try " + (ppExpr' (i+4) e1) +
                             "\n" + (indent (i+2)) + "with " + (ppExnVar exn) + " -> " + (ppExpr' (i+4) e2) + ")"
+    | Pair(e1,e2,aOpt) -> "(" + (ppExpr' i e1) + ", " + (ppExpr' i e2) + ")" + (fPP aOpt)  
   and ppExnVar = function
     | ExnVar exn -> exn      
   and ppValDec' i = function
@@ -97,6 +99,7 @@ let rec getOptExpr e : 'a Option =
   | Raise(e,aOpt) -> aOpt
   | TryWith(e1,exn,e2) -> getOptExpr e1 (* e1 and e3 has same type *)
   | Let(_,letBody) -> getOptExpr letBody
+  | Pair(_,_,aOpt) -> aOpt
 
 let tailcalls p : program<'a> =
   let rec tc' tPos e =
@@ -116,7 +119,8 @@ let tailcalls p : program<'a> =
     | Let(valdecs,letBody) -> Let(List.map (tcValdec' false) valdecs,tc' tPos letBody)
     | Raise(e1,aOpt) -> e
       (* an exception handler must be popped after e1 *)    
-    | TryWith(e1,exn,e2) -> TryWith(tc' false e1, exn, tc' tPos e2) 
+    | TryWith(e1,exn,e2) -> TryWith(tc' false e1, exn, tc' tPos e2)
+    | Pair(e1,e2,aOpt) -> Pair(tc' false e1, tc' false e2, aOpt)
   and tcValdec' tPos = function
     | Valdec(x,eRhs) -> Valdec(x,tc' tPos eRhs)
     | Fundecs(fs) -> Fundecs(List.map (fun (f,x,e) -> (f,x,tc' true e)) fs)
@@ -149,6 +153,7 @@ let rec freevars e : string Set =
   | Call(eFun, eArg,_,_) -> freevars eFun + (freevars eArg)
   | Raise(e1,_) -> freevars e1
   | TryWith(e1,ExnVar exn,e2) -> (freevars e1) + (set [exn]) + (freevars e2) (* exn is also free *)
+  | Pair(e1,e2,aOpt) -> (freevars e1) + (freevars e2)
 and freevarsValdec (fvs, bvs) = function (* bvs are bound variables, either globally or in locally. *)
     Valdec(x,eRhs) -> (fvs + ((freevars eRhs) - set [x]),bvs + set [x]) 
   | Exn (ExnVar exn,aOpt) -> (fvs,bvs + set [exn])

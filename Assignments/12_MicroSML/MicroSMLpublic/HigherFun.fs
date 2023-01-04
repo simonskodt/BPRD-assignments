@@ -45,6 +45,7 @@ type value =
   | Int of int
   | List of value list
   | ClosureRef of closure ref
+  | PairV of value * value
 and closure =
   Closure of string * string * expr<typ> * value env       (* (f, x, fBody, fDeclEnv) *)
 
@@ -59,6 +60,7 @@ let rec ppValue = function
   | ClosureRef closRef ->
     match !closRef with
     | Closure(f,x,fBody,fDeclEnv) -> "Closure("+f+","+x+"fBody" + "," + "fDeclEnv" + ")"
+  | PairV(v1,v2) -> sprintf "(%A, %A)" (v1, v2)
 
 let ppEnv fPP env =
   let ppEntry (s,v) acc = sprintf "  %s |-> %s \n" s (fPP v) + acc
@@ -99,6 +101,12 @@ let rec evalExpr (env : value env) (e : expr<typ>)
                                       | List [] -> cont (Int 1)
                                       | List _ -> cont (Int 0)
                                       | _ -> Abort ("Prim1: isnil on non list value: " + (ppValue v1))
+                     | ("fst",_) -> match v1 with
+                                    | Pair(e1,e2) -> cont e1
+                                    | _ -> Abort ("Prim1: fst on non pair value")
+                     | ("snd", _) -> match v1 with
+                                     | Pair(e1,e2) -> cont e2
+                                     | _ -> Abort ("Prim1: snd on non pair value")
                      | _ -> Abort ("Prim1 "+ope+" not implemented")) econt
   | Prim2(ope, e1, e2,_) ->
     evalExpr env e1
@@ -137,7 +145,7 @@ let rec evalExpr (env : value env) (e : expr<typ>)
   | Let(valdecs,letBody) -> evalValdecs env valdecs letBody cont econt
   | If(e1, e2, e3) ->
       evalExpr env e1
-        (fun v1 -> 
+        (fun v1 ->
          match v1 with
          | Int 0 -> evalExpr env e3 cont econt
          | Int _ -> evalExpr env e2 cont econt
@@ -159,6 +167,12 @@ let rec evalExpr (env : value env) (e : expr<typ>)
                evalExpr fBodyEnv fBody cont econt)) econt
        | _ -> Abort "evalExpr Call: not a function") econt
   | Raise(e,aOpt) -> evalExpr env e econt econt (* Raise exception *)
+  | Pair(e1,e2,_) -> 
+    evalExpr env e1
+      (fun v1 ->
+        evalExpr env e2 ->
+          (fun v2 ->
+            PairV(v1,v2)) econt) econt
   | TryWith(e1,ExnVar exn,e2) ->
     evalExpr env e1 cont
       (fun vExn1 ->

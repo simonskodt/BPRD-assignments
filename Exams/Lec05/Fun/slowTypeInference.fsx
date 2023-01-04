@@ -1,0 +1,11 @@
+let id x = x
+let pair x y p = p x y
+let p1 p = pair id id p
+let p2 p = pair p1 p1 p
+let p3 p = pair p2 p2 p
+let p4 p = pair p3 p3 p
+let p5 p = pair p4 p4 p
+let p6 p = pair p5 p5 p
+let p7 p = pair p6 p6 p
+let p8 p = pair p7 p7 p
+let p9 p = pair p8 p8 p

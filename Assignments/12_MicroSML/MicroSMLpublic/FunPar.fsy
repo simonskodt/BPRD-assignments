@@ -17,8 +17,9 @@
 %token FUN FN RARROW AND
 %token PLUS MINUS TIMES DIV MOD
 %token EQ NE GT LT GE LE SEQAND SEQOR
-%token CONS NIL HEAD TAIL
+%token CONS NIL HEAD TAIL 
 %token LPAR RPAR SEMICOLON COLON
+%token COMMA FST SND
 %token EOF
 
 %left SEMICOLON               /* lowest precedence  */
@@ -34,7 +35,7 @@
 %right CONS
 %left PLUS MINUS
 %left TIMES DIV MOD
-%nonassoc PRIM1 RAISE HEAD TAIL NOT           /* highest precedence  */
+%nonassoc PRIM1 RAISE HEAD TAIL NOT FST SND           /* highest precedence  */
 
 %start Main
 %type <Absyn.program<'a>> Main
@@ -84,12 +85,15 @@ Expr:
   | Expr LT    Expr                     { Prim2("<",  $1, $3, None)            }
   | Expr GE    Expr                     { Prim2(">=", $1, $3, None)            }
   | Expr LE    Expr                     { Prim2("<=", $1, $3, None)            }
-  | Expr CONS  Expr                     { Prim2("::",$1, $3, None)           }
+  | Expr CONS  Expr                     { Prim2("::",$1, $3, None)             }
   | HEAD Expr                           { Prim1("hd", $2, None)                }
   | TAIL Expr                           { Prim1("tl", $2, None)                }
   | Expr SEQAND Expr                    { AndAlso($1, $3, None)                }
   | Expr SEQOR Expr                     { OrElse($1, $3, None)                 }
   | Expr SEMICOLON Expr                 { Seq($1, $3, None)                    }
+  | LPAR Expr COMMA Expr RPAR           { Pair($2, $4)                         }
+  | FST Expr                            { Prim("fst", $2)                      }
+  | SND Expr                            { Prim("snd", $2)                      }
 ;
 
 AtExpr:

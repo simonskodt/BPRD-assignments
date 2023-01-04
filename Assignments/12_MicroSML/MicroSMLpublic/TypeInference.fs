@@ -52,6 +52,7 @@ type typ =
   | TypV of typevar                     (* type variable              *)
   | TypL of typ                         (* lists                      *)
   | TypE                                (* Exception type             *)
+  | TypP of typ * typ                   (* Tuple type                 *)
 
 and tyvarkind =  
   | NoLink of string                    (* uninstantiated type var.   *)
@@ -94,6 +95,7 @@ let rec resolveType t0 =
     | _ -> t0
   | TypF(t1,t2) -> TypF(resolveType t1, resolveType t2)
   | TypL t -> TypL (resolveType t)
+  | TypP(t1,t2) -> TypP(resolveType t1, resolveType t2)
   | _ -> t0;
 
 let rec freeTypeVars t : typevar list = 
@@ -104,6 +106,7 @@ let rec freeTypeVars t : typevar list =
   | TypF(t1,t2) -> union(freeTypeVars t1, freeTypeVars t2)
   | TypL t      -> freeTypeVars t
   | TypE        -> []
+  | TypP(t1,t2) -> union(freeTypeVars t1, freeTypeVars t2)
 
 let occurCheck tyvar tyvars =                     
   if mem tyvar tyvars then failwith "type error: circularity" else ()
@@ -134,6 +137,7 @@ let rec typeToString t : string =
   | TypF(t1, t2) -> "function"
   | TypL t       -> "list"
   | TypE         -> "exn"
+  | TypP(t1,t2)  -> "tuple"
             
 (* Unify two types, equating type variables with types as necessary *)
 
@@ -154,6 +158,7 @@ let rec unify t1 t2 : unit =
                                 else linkVarToType tv2 t1'
   | (TypV tv1, _       ) -> linkVarToType tv1 t2'
   | (_,        TypV tv2) -> linkVarToType tv2 t1'
+  | (TypP(t11,t12), TypP(t21, t22)) -> (unify t11 t21; unify t12 t22) 
   | (TypI,     t) -> failwith ("type error: int and " + typeToString t)
   | (TypB,     t) -> failwith ("type error: bool and " + typeToString t)
   | (TypF _,   t) -> failwith ("type error: function and " + typeToString t)
@@ -202,6 +207,7 @@ let rec copyType subst t : typ =
   | TypI        -> TypI
   | TypB        -> TypB
   | TypE        -> TypE
+  | TypP(t1,t2) -> TypP(copyType subst t1, copyType subst t2)
 
 (* Create a type from a type scheme (tvs, t) by instantiating all the
    type scheme's parameters tvs with fresh type variables *)
@@ -227,6 +233,7 @@ let rec showType t : string =
     | TypF(t1, t2) -> "(" + pr t1 + " -> " + pr t2 + ")"
     | TypL t       -> "(" + pr t + " list" + ")"
     | TypE         -> "exn"
+    | TypP(t1, t2) -> "(" + pr t1 + " * " + pr t2 + ")"
   pr t 
 
 (* A type environment maps a program variable name to a typescheme *)
@@ -261,6 +268,12 @@ let rec typExpr (lvl : int) (env : tenv) (e : expr<'a>) : typ * expr<typ> =
     | "isnil" -> let tv = TypV(newTypeVar lvl)
                  unify (TypL tv) t1;
                  (TypB,Prim1(ope,e1',Some TypB))
+    | "fst" -> let tv = TypV(newTypeVar lvl)
+               unify (TypP tv) t1;
+               (tv,Prim1(ope,e1',Some TypP))
+    | "snd" -> let tv = TypV(newTypeVar lvl)
+               unify (TypP tv) t1;
+               (tv,Prim1(ope,e1',Some TypP))
     | _ -> failwith ("typ of Prim1 " + ope + " not implemented")
   | Prim2(ope,e1,e2,_) -> 
     let (t1,e1') = typExpr lvl env e1
@@ -331,6 +344,13 @@ let rec typExpr (lvl : int) (env : tenv) (e : expr<'a>) : typ * expr<typ> =
     unify t1 t2;
     unify typX TypE;
     (t1, TryWith(e1',ExnVar x,e2'))
+  | Pair(e1,e2,_) ->
+    let (t1, e1') = typExpr lvl env e1
+    let (t2, e2') = typExpr lvl env e2
+    unify t1 t2
+    let tr = TypP(t1, t2)
+    (tr, Pair(e1', e2', Some tr))
+
 and typValdec (lvl:int) (env:tenv) (t:valdec<'a>) : tenv * valdec<typ> =
   match t with
   | Fundecs fs -> 
