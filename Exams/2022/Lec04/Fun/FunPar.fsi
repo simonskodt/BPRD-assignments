@@ -15,6 +15,10 @@ type token =
   | TIMES
   | DIV
   | MOD
+  | DPLUS
+  | LBRA
+  | RBRA
+  | COMMA
   | ELSE
   | END
   | FALSE
@@ -42,6 +46,10 @@ type tokenId =
     | TOKEN_TIMES
     | TOKEN_DIV
     | TOKEN_MOD
+    | TOKEN_DPLUS
+    | TOKEN_LBRA
+    | TOKEN_RBRA
+    | TOKEN_COMMA
     | TOKEN_ELSE
     | TOKEN_END
     | TOKEN_FALSE
@@ -60,6 +68,7 @@ type nonTerminalId =
     | NONTERM__startMain
     | NONTERM_Main
     | NONTERM_Expr
+    | NONTERM_SetExpr
     | NONTERM_AtExpr
     | NONTERM_AppExpr
     | NONTERM_Const
