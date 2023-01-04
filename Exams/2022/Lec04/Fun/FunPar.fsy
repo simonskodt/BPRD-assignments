@@ -12,7 +12,7 @@
 %token <bool> CSTBOOL
 
 %token ELSE END FALSE IF IN LET NOT THEN TRUE
-%token PLUS MINUS TIMES DIV MOD
+%token PLUS MINUS TIMES DIV MOD LBRA RBRA COMMA DPLUS
 %token EQ NE GT LT GE LE
 %token LPAR RPAR 
 %token EOF
@@ -20,7 +20,7 @@
 %left ELSE              /* lowest precedence  */
 %left EQ NE 
 %left GT LT GE LE
-%left PLUS MINUS
+%left PLUS MINUS DPLUS
 %left TIMES DIV MOD 
 %nonassoc NOT           /* highest precedence  */
 
@@ -50,8 +50,13 @@ Expr:
   | Expr LT    Expr                     { Prim("<",  $1, $3)     }
   | Expr GE    Expr                     { Prim(">=", $1, $3)     }
   | Expr LE    Expr                     { Prim("<=", $1, $3)     }
-  | LBRA Expr 
+  | LBRA SetExpr RBRA                   { Set($2)                }
+  | SetExpr DPLUS SetExpr               { Prim("++", $1, $3)     }
 ;
+
+SetExpr:
+    Expr                                 { [$1]                  }
+  | SetExpr COMMA Expr                   { $1 :: $3              }
 
 AtExpr:
     Const                               { $1                     }
