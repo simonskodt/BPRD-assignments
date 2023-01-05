@@ -12,21 +12,20 @@
 %token <bool> CSTBOOL
 
 %token ELSE END FALSE IF IN LET NOT THEN TRUE
-%token PLUS MINUS TIMES DIV MOD LBRA RBRA COMMA DPLUS
-%token EQ NE GT LT GE LE
-%token LPAR RPAR 
+%token PLUS MINUS TIMES DIV MOD
+%token EQ NE GT LT GE LE WITHIN
+%token LPAR RPAR LBRACKET RBRACKET COMMA
 %token EOF
 
 %left ELSE              /* lowest precedence  */
 %left EQ NE 
-%left GT LT GE LE
-%left PLUS MINUS DPLUS
+%left GT LT GE LE WITHIN
+%left PLUS MINUS
 %left TIMES DIV MOD 
-%nonassoc NOT           /* highest precedence  */
+%nonassoc NOT        /* highest precedence  */
 
 %start Main
 %type <Absyn.expr> Main Expr AtExpr Const
-%type <Absyn.expr list> SetExpr
 %type <Absyn.expr> AppExpr
 
 %%
@@ -51,14 +50,9 @@ Expr:
   | Expr LT    Expr                     { Prim("<",  $1, $3)     }
   | Expr GE    Expr                     { Prim(">=", $1, $3)     }
   | Expr LE    Expr                     { Prim("<=", $1, $3)     }
-  | LBRA SetExpr RBRA                   { Set($2)                }
-  | Expr DPLUS Expr                     { Prim("++", $1, $3)     }
-
+  | Expr WITHIN LBRACKET Expr COMMA Expr RBRACKET 
+                                        { InCheck($1, $4, $6)    } 
 ;
-
-SetExpr:
-    Expr                                 { [$1]                  }
-  | SetExpr COMMA Expr                   { $1 @ [$3]             }
 
 AtExpr:
     Const                               { $1                     }

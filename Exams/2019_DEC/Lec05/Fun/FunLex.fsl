@@ -6,7 +6,7 @@
 
 module FunLex
 
-open (*Microsoft.*)FSharp.Text.Lexing
+open (*Microsoft.*) FSharp.Text.Lexing
 open FunPar;
 
 let lexemeAsString lexbuf = 
@@ -30,6 +30,7 @@ let keyword s =
     | "not"   -> NOT
     | "then"  -> THEN
     | "true"  -> CSTBOOL true
+    | "within"-> WITHIN
     | _       -> NAME s
 }
 
@@ -55,10 +56,9 @@ rule Token = parse
   | '%'             { MOD }
   | '('             { LPAR }
   | ')'             { RPAR }
-  | '{'             { LBRA }
-  | '}'             { RBRA }
+  | '['             { LBRACKET }
+  | ']'             { RBRACKET }
   | ','             { COMMA }
-  | "++"            { DPLUS }
   | eof             { EOF }
   | _               { failwith "Lexer error: illegal symbol" }
 
