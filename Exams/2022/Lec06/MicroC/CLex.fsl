@@ -27,7 +27,9 @@ let keyword s =
     | "return"  -> RETURN
     | "true"    -> CSTBOOL 1
     | "void"    -> VOID 
-    | "while"   -> WHILE         
+    | "while"   -> WHILE   
+    | "printStack" -> PRINTSTACK   
+    | "within"  -> WITHIN    
     | _         -> NAME s
  
 let cEscape s = 

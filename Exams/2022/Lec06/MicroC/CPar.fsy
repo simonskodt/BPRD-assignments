@@ -14,19 +14,19 @@ let nl = CstI 10
 %token <int> CSTINT CSTBOOL
 %token <string> CSTSTRING NAME
 
-%token CHAR ELSE IF INT NULL PRINT PRINTLN RETURN VOID WHILE
+%token CHAR ELSE IF INT NULL PRINT PRINTLN RETURN VOID WHILE PRINTSTACK
 %token PLUS MINUS TIMES DIV MOD
-%token EQ NE GT LT GE LE
+%token EQ NE GT LT GE LE WITHIN
 %token NOT SEQOR SEQAND
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
 
 %right ASSIGN             /* lowest precedence */
-%nonassoc PRINT
+%nonassoc PRINT PRINTSTACK
 %left SEQOR
 %left SEQAND
 %left EQ NE 
-%left GT LT GE LE
+%left GT LT GE LE WITHIN
 %left PLUS MINUS
 %left TIMES DIV MOD 
 %nonassoc NOT AMP 
@@ -100,6 +100,7 @@ StmtM:  /* No unbalanced if-else */
   | Block                               { $1                   }
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
+  | PRINTSTACK Expr SEMI                { PrintStack($2)       }
 ;
 
 StmtU:
@@ -133,6 +134,8 @@ ExprNotAccess:
   | Expr LE    Expr                     { Prim2("<=", $1, $3) }
   | Expr SEQAND Expr                    { Andalso($1, $3)     }
   | Expr SEQOR  Expr                    { Orelse($1, $3)      }
+  | Expr WITHIN LBRACK Expr COMMA Expr RBRACK 
+                                        { WithIn($1, $4, $6)  } 
 ;
 
 AtExprNotAccess:

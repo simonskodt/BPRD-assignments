@@ -35,6 +35,7 @@ type expr =
   | Or  of expr * expr
   | Seq of expr * expr
   | Every of expr 
+  | Random of int * int * int
   | Fail;;
 
 (* Runtime values and runtime continuations *)
@@ -98,6 +99,17 @@ let rec eval (e : expr) (cont : cont) (econt : econt) =
     | Every e -> 
       eval e (fun _ -> fun econt1 -> econt1 ())
              (fun () -> cont (Int 0) econt)
+    | Random(min,max,num) ->
+      if min > max then econt ()
+      elif num <= 0 then econt ()
+      else 
+        let rec loop n =
+          if n = 0 then econt ()
+          else
+            let random = new System.Random();
+            let randomNext = random.Next(min, max+1);
+            cont (Int randomNext) (fun () -> loop(n-1))
+        loop num
     | Fail -> econt ()
 
 let run e = eval e (fun v -> fun _ -> v) (fun () -> (printfn "Failed"; Int 0));
@@ -137,3 +149,11 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 
 // every(write(4 < (1 to 10)))
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
+
+// Exam 2022
+let ex10 = Every(Write(FromTo(1, 10))); // 1 2 3 4 5 6 7 8 9 10
+let ex11 = Every(Write(Prim("*", FromTo(1, 10), FromTo(1, 10)))); // udskriver 10–tals tabellen
+let ex12 = Every(Write(And(Prim("*", FromTo(1, 10), FromTo(1, 10)), CstS("\n")))); // udskriver 10–tals tabellen
+
+let ex13 = Every(Write(Random(1, 10, 3)));
+
