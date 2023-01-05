@@ -215,7 +215,7 @@ and Token  lexbuf =
           )
   | 20 -> ( 
 # 60 "FunLex.fsl"
-                                     COMM 
+                                     COMMA 
 # 219 "FunLex.fs"
           )
   | 21 -> ( 

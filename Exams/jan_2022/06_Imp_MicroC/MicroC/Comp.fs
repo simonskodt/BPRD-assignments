@@ -208,6 +208,25 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) : instr list =
       @ cExpr e2 varEnv funEnv
       @ [GOTO labend; Label labtrue; CSTI 1; Label labend]
     | Call(f, es) -> callfun f es varEnv funEnv
+    | WithIn(e, e1, e2) ->
+      let labend = newLabel()
+      let labFalse = newLabel()
+      // If e >= e1
+      cExpr e varEnv funEnv
+      @ cExpr e1 varEnv funEnv
+      @ [LT; NOT; IFZERO labFalse]
+      // If e <) e2
+      @ cExpr e2 varEnv funEnv
+      @ cExpr e varEnv funEnv
+      @ [LT; NOT; IFZERO labFalse]
+      @ [CSTI 1; GOTO labend; Label labFalse; CSTI 0]
+      // If e < e1 or e > e2
+      @ [Label labend]
+(*
+  
+open ParseAndComp;;
+compileToFile (fromFile "within.c") "within.out";;
+*)
 
 (* Generate code to access variable, dereference pointer or index array.
    The effect of the compiled code is to leave an lvalue on the stack.   *)

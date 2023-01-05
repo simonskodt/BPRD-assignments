@@ -5,10 +5,10 @@ module Absyn
 type expr = 
   | CstI of int
   | CstB of bool
-  | Set of expr list (* Exam *)
   | Var of string
   | Let of string * expr * expr
   | Prim of string * expr * expr
   | If of expr * expr * expr
   | Letfun of string * string * expr * expr    (* (f, x, fBody, letBody) *)
   | Call of expr * expr
+  | Set of expr list (* Exam *)

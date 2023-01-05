@@ -35,6 +35,7 @@ type expr =
   | Or  of expr * expr
   | Seq of expr * expr
   | Every of expr 
+  | Random of int * int * int
   | Fail;;
 
 (* Runtime values and runtime continuations *)
@@ -99,6 +100,17 @@ let rec eval (e : expr) (cont : cont) (econt : econt) =
       eval e (fun _ -> fun econt1 -> econt1 ())
              (fun () -> cont (Int 0) econt)
     | Fail -> econt ()
+    | Random(min, max, num) ->
+      if min > max then econt ()
+      elif num <= 0 then econt ()
+      else
+        let rec aux n = 
+          if n = 0 then econt ()
+          else
+            let random = new System.Random();
+            let randomNext = random.Next(min, max+1)
+            cont (Int randomNext) (fun () -> aux (n-1))
+        aux num
 
 let run e = eval e (fun v -> fun _ -> v) (fun () -> (printfn "Failed"; Int 0));
 
@@ -137,3 +149,18 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 
 // every(write(4 < (1 to 10)))
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
+
+// Exam 2022, 4.1. Write the numbers 1 to 10.
+let as01 = Every (Write (FromTo(1, 10)));
+
+// Exam 2022, 4.2. Write all multiplication tables.
+let as02 = Every (Write (Prim("*", FromTo(1, 10), FromTo(1, 10))));
+
+// Exam 2022, 4.3. Write all multiplication tables, but newlines after each.
+let as03 = Every (Write (And(Write(Prim("*", FromTo(1, 10), FromTo(1, 10))), CstS "\n")));
+
+// example. Write 1 to 10 but newlines after each.
+// let as05 = Every (Write(And((Write(And(FromTo(1, 3), FromTo(1, 10)))), CstS "\n")));
+
+// Exam 2022, 4.4. Write 3 random numbers between 1 and 10.
+let as04 = Every(Write(Random(1,10,3)))
