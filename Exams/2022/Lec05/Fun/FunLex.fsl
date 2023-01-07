@@ -55,6 +55,10 @@ rule Token = parse
   | '%'             { MOD }
   | '('             { LPAR }
   | ')'             { RPAR }
+  | '{'             { LBRA }
+  | '}'             { RBRA }
+  | ','             { COMMA }
+  | "++"            { DPLUS }
   | eof             { EOF }
   | _               { failwith "Lexer error: illegal symbol" }
 

@@ -30,6 +30,7 @@ let rec lookup env x =
 type value = 
   | Int of int
   | Closure of string * string * expr * value env       (* (f, x, fBody, fDeclEnv) *)
+  | SetV of Set<value> (* Exam *)
 
 let rec eval (e : expr) (env : value env) : value =
     match e with
@@ -45,6 +46,8 @@ let rec eval (e : expr) (env : value env) : value =
       | ("-", Int i1, Int i2) -> Int (i1 - i2)
       | ("=", Int i1, Int i2) -> Int (if i1 = i2 then 1 else 0)
       | ("<", Int i1, Int i2) -> Int (if i1 < i2 then 1 else 0)
+      | ("++", SetV s1, SetV s2) -> SetV (Set.union s1 s2) (* Exam *)
+      | ("=", SetV s1, SetV s2) -> Int (if s1 = s2 then 1 else 0) (* Exam *)
       |  _ -> failwith "unknown primitive or wrong type"
     | Let(x, eRhs, letBody) -> 
       let xVal = eval eRhs env
@@ -58,6 +61,7 @@ let rec eval (e : expr) (env : value env) : value =
     | Letfun(f, x, fBody, letBody) -> 
       let bodyEnv = (f, Closure(f, x, fBody, env)) :: env
       eval letBody bodyEnv
+    | Set setLst -> SetV (Set.ofList (List.map (fun e -> eval e env) setLst)) (* Exam *) 
     | Call(eFun, eArg) -> 
       let fClosure = eval eFun env  (* Different from Fun.fs - to enable first class functions *)
       match fClosure with

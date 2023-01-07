@@ -12,6 +12,14 @@ let run e = eval e [];;
 
 (* Examples of higher-order programs, in concrete syntax *)
 
+let ex01 =
+    Parse.fromString
+     @"let s1 = {2, 3} in
+        let s2 = {1, 4} in
+            s1 ++ s2 = {2,4,3,1}
+        end
+       end";;
+
 let ex5 = 
     Parse.fromString 
      @"let tw g = let app x = g (g x) in app end 
