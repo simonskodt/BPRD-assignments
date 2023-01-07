@@ -35,7 +35,7 @@ type expr =
   | Or  of expr * expr
   | Seq of expr * expr
   | Every of expr 
-  | Random of int * int * int
+  | Find of string * string
   | Fail;;
 
 (* Runtime values and runtime continuations *)
@@ -99,18 +99,20 @@ let rec eval (e : expr) (cont : cont) (econt : econt) =
     | Every e -> 
       eval e (fun _ -> fun econt1 -> econt1 ())
              (fun () -> cont (Int 0) econt)
+    | Find ((pat:string), (str:string)) ->
+      let rec aux i j =
+        if i < str.Length then
+            if str.[i] = pat.[j] then
+              if j = pat.Length-1 then
+                cont (Int (i-(pat.Length-1))) (fun () -> aux (i+1) 0)
+              else
+                aux (i+1) (j+1)       
+            else
+              aux (i+1) 0
+        else
+          econt ()
+      aux 0 0
     | Fail -> econt ()
-    | Random(min, max, num) ->
-      if min > max then econt ()
-      elif num <= 0 then econt ()
-      else
-        let rec aux n = 
-          if n = 0 then econt ()
-          else
-            let random = new System.Random();
-            let randomNext = random.Next(min, max+1)
-            cont (Int randomNext) (fun () -> aux (n-1))
-        aux num
 
 let run e = eval e (fun v -> fun _ -> v) (fun () -> (printfn "Failed"; Int 0));
 
@@ -150,14 +152,21 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 // every(write(4 < (1 to 10)))
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
 
-// Exam 2022, 4.1. Write the numbers 1 to 10.
-let as01 = Every (Write (FromTo(1, 10)));
+// Exam ex1
+let iconEx1 = Write(Prim("<",CstI 7,FromTo(1,10)))
 
-// Exam 2022, 4.2. Write all multiplication tables.
-let as02 = Every (Write (Prim("*", FromTo(1, 10), FromTo(1, 10))));
+// Exam as01
+let as01 = Every(Write(Prim("<",CstI 7,FromTo(1,10))))
 
-// Exam 2022, 4.3. Write all multiplication tables, but newlines after each.
-let as03 = Every(Write(Prim("*",FromTo(1,10), And(Write (CstS "\n"),FromTo(1,10)))))
+// Exam as02
+let iconEx2 = Every(Write(And(FromTo(1,4), And(Write (CstS "\n"),FromTo(1,4)))))
+//                             ^Number of lines                    ^what to write
 
-// Exam 2022, 4.4. Write 3 random numbers between 1 and 10.
-let as04 = Every(Write(Random(1,10,3)))
+
+let as02 = Every(Write(Prim("*",FromTo(1,4), And(Write (CstS "\n"),FromTo(1,4)))))
+
+// Exam as03
+let as031 = Every(Write(Find("there","Hi there - if there are anyone")))
+
+let as05 = Every(Write(Find("e","Hi there - if there are anyone")))
+let as06 = Every(Write(Prim("<", CstI 10, Find("e","Hi there - if there are anyone"))))
