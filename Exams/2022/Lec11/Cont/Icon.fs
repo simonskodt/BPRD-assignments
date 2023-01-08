@@ -150,10 +150,9 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 // every(write(4 < (1 to 10)))
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
 
-// Exam 2022
+(* Exam *) 
 let ex10 = Every(Write(FromTo(1, 10))); // 1 2 3 4 5 6 7 8 9 10
 let ex11 = Every(Write(Prim("*", FromTo(1, 10), FromTo(1, 10)))); // udskriver 10–tals tabellen
-let ex12 = Every(Write(And(Prim("*", FromTo(1, 10), FromTo(1, 10)), CstS("\n")))); // udskriver 10–tals tabellen
-
+let ex12 = Every(Write(Prim("*", FromTo(1,10), (And(Write (CstS "\n"),FromTo(1,10))))));// udskriver 10–tals tabellen på flere linjer
 let ex13 = Every(Write(Random(1, 10, 3)));
 
